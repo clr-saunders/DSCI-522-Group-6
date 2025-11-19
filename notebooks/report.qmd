@@ -1,7 +1,7 @@
 ---
 title: "Report Title"
-author: "Author Name"
-date: "`r Sys.Date()`"
+author: "Amar Gill, Ruth Yankson, Limor Winter, Claire Saunders"
+date: "November 18, 2025"
 jupyter: python3
 format:
   pdf: default
@@ -12,4 +12,154 @@ execute:
   cache: false
 ---
 
-# Document starts here
+```python
+# imports here
+
+
+
+
+```
+
+# Summary
+
+ (Insert summary after analysis and discussion complete) 
+
+
+
+
+
+
+
+
+
+
+
+# Introduction
+
+The Agaricus and Lepiota (Agaricaceae) family of mushrooms, includes many of the common gilled mushrooms found and cultivated in urban and suburban North America (Lincoff, 1981, 500). 
+The family includes the common cultivated mushroom (Agaricus bisporus), and some of the best edible mushrooms, but it also includes poisonous mushrooms and a few that are deadly(500). 
+These mushrooms are sometimes found in forests, but many grow on lawns, in the compost, or along roadsides and grassy areas where they are readily accessible for human consumption (500). 
+Accurate assessment of the edibility of these mushrooms is extremely important prior to consumption, however there is no simple rule for determining whether any example is poisonous or edible (500-505). 
+
+Here we ask if we can use a supervised machine learning algorithm to predict whether a given mushroom from the Agaricus and Lepiota family of mushrooms is edible or poisonous, based upon it's physical characteristics. 
+Answering this question is important because mushroom poisonings are common and the greatest risk factor for mushroom poisoning is the misidentification of poisonous species as edible, in particular by amateur mushroom foragers and immigrants (Diaz, 2016)
+If made accessible to the public in North America, accurate prediction of mushrooms in this family could prevent poisoning and support the safe consumption of common edible mushrooms. 
+
+# Methods
+
+## Data
+
+The data set used in this project includes hypothetical mushroom samples drawn from The Audobon Society Field Guide to North American Mushrooms by Gary Lincoff (1981, 500-525). 
+It was sourced from the UCI Machine Learning Repository, and can be found [here](https://archive.ics.uci.edu/dataset/73/mushroom), specifically the file *agarius-lepiota.data*. 
+It includes 8124 descriptions of hypothetical mushroom samples that correspond to 23 species of mushrooms in the Agaricus and Lepiota Family (Mushroom, 1981). 
+Each row includes 22 categorical variables that are physical characteristics of the mushroom sample, including the odor, gill-spacing, gill-color, gill-size, population, habitat, etc, and is labelled as edible or poisonous. 
+
+## Analysis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Results & Discussion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# References 
+
+Lincoff, G. H. (1981).The Audubon Society Field Guide to North American Mushrooms (1981). New York: Alfred A. Knopf
+
+Mushroom. (1981). UCI Machine Learning Repository. https://doi.org/10.24432/C5959T
+
+Diaz, J. H. (2016). Mistaken mushroom poisonings. Wilderness & Environmental Medicine, 27(2), 330-335.
