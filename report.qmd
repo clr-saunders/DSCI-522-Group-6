@@ -1,5 +1,5 @@
 ---
-title: "Report Title"
+title: "Mushroom Classification"
 author: "Author Name"
 date: "`r Sys.Date()`"
 jupyter: python3
@@ -13,3 +13,14 @@ execute:
 ---
 
 # Document starts here
+
+
+# download data as zip and extract
+url = "https://archive.ics.uci.edu/static/public/73/mushroom.zip"
+
+request = requests.get(url)
+with open("../data/raw/mushroom.zip", 'wb') as f:
+    f.write(request.content)
+
+with zipfile.ZipFile("../data/raw/mushroom.zip", 'r') as zip_ref:
+    zip_ref.extractall("../data/raw")
