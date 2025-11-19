@@ -1,0 +1,17 @@
+name: envg6
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - jupyter_contrib_nbextensions
+  - notebook
+  - requests
+  - vegafusion-python-embed
+  - python
+  - scikit-learn
+  - vl-convert-python
+  - pandas
+  - ipykernel
+  - vegafusion
+  - altair
+  - vegafusion-jupyter
