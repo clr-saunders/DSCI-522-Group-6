@@ -16,6 +16,8 @@ execute:
 ```{python}
 import requests
 import zipfile
+import pandas as pd
+import numpy as np
 ```
 
 # Summary
@@ -64,7 +66,6 @@ with zipfile.ZipFile("../data/raw/mushroom.zip", 'r') as zip_ref:
 
 # Data cleaning and wrangling
 ```{python}
-import pandas as pd
 col_names = [
     "class", "cap_shape", "cap_surface", "cap_color", "bruises", "odor",
     "gill_attachment", "gill_spacing", "gill_size", "gill_color",
@@ -84,14 +85,43 @@ df["class_label"] = df["class"].map({"p": 1, "e": 0})
 # Drop rows with na in the target column
 df = df.dropna(subset=["class_label"])
 
-df.head()
 ```
 
 # EDA summary
 ```{python}
 # Basic information
+df.head()
 df.info()
+df.shape
+df.isna().sum()
+df.describe()
 ```
+
+```{python}
+# Encode "missing" (?) as NA
+(df == '?').sum()
+df = df.replace('?', np.nan)
+df.isna().sum()
+```
+
+```{python}
+# Inspect target variable: e = edible = 0, p = poisonous = 1
+df['class'].value_counts() 
+df['class'].value_counts(normalize=True)
+df['is_poisonous'] = (df['class'] == 'p').astype(int)
+df['is_poisonous'].value_counts(normalize=True)
+```
+
+```{python}
+# 
+
+```
+
+```{python}
+# 
+
+```
+
 
 # Results & Discussion
 
