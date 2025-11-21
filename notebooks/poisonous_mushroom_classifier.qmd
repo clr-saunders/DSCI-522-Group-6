@@ -381,6 +381,7 @@ feature_cols = [col for col in df.columns if col not in exclude]
 ```{python}
 #| label: tbl-poison-rank
 #| tbl-cap: "Ranking of features by how well they distinguish poisonous mushrooms"
+
 # Compute the variance in poisonous fraction across the categories of each feature
 # Show strongly the feature predicts toxicity
 
