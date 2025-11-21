@@ -193,7 +193,7 @@ def get_poison_rate_by(feature):
 ```
 
 ```{python}
-# 
+# Feature category maps
 odor_map = {
     "a": "almond",
     "c": "creosote",
@@ -204,6 +204,46 @@ odor_map = {
     "p": "pungent",
     "s": "spicy",
     "y": "fishy",
+}
+
+habitat_map = {
+    "g": "grasses",
+    "l": "leaves",
+    "m": "meadows",
+    "p": "paths",
+    "u": "urban",
+    "w": "waste",
+    "d": "woods",
+}
+
+gill_size_map = {
+    "b": "broad",
+    "n": "narrow",
+}
+
+bruises_map = {
+    "t": "bruises",
+    "f": "no bruises",
+}
+
+population_map = {
+    "a": "abundant",
+    "c": "clustered",
+    "n": "numerous",
+    "s": "scattered",
+    "v": "several",
+    "y": "solitary",
+}
+
+ring_type_map = {
+    "c": "cobwebby",
+    "e": "evanescent",
+    "f": "flaring",
+    "l": "large",
+    "n": "none",
+    "p": "pendant",
+    "s": "sheathing",
+    "z": "zone",
 }
 
 ```
@@ -285,7 +325,7 @@ def stacked_poison_chart(
             ],
         )
         .properties(
-            title=f"Class proportions (edible vs poisonous) by {feature_label.lower()}",
+            title=f"Figure {figure_number}: Class proportions (edible vs poisonous) by {feature_label.lower()}",
             width=450,
         )
     )
@@ -294,25 +334,45 @@ def stacked_poison_chart(
 ```
 ```{python}
 
-# Fraction of poisonous mushrooms for each odor category
-stacked_poison_chart("odor", "Odor category", odor_map)
+# Visualize the edible vs poisonous class proportions for each odor category
+stacked_poison_chart(1, "odor", "Odor Category", odor_map)
+
+```
+
+```{python}
+# Visualize the edible vs poisonous class proportions for each gill size
+stacked_poison_chart(2, "gill_size", "Gill Size", gill_size_map)
+
+
+```
+
+```{python}
+# Visualize the edible vs poisonous class proportions for each habitat 
+stacked_poison_chart(3, "habitat", "Habitat", habitat_map)
+
+```
+
+```{python}
+# Visualize the edible vs poisonous class proportions for each bruise category 
+stacked_poison_chart(4, "bruises", "Bruises", bruises_map)
+
+```
+
+```{python}
+# Visualize the edible vs poisonous class proportions for each population type 
+stacked_poison_chart(5, "population", "Population", population_map)
 
 ```
 
 
 
-
 ```{python}
-# Gill size
-stacked_poison_chart("gill_size", "Gill size")
+
 
 ```
 
-
-
 ```{python}
-# Habitat
-stacked_poison_chart("habitat", "Habitat")
+
 
 ```
 
