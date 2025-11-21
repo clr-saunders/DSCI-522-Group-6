@@ -18,6 +18,7 @@ import requests
 import zipfile
 import pandas as pd
 import numpy as np
+import altair as alt
 ```
 
 # Summary
@@ -84,6 +85,12 @@ df["class_label"] = df["class"].map({"p": 1, "e": 0})
 
 # Drop rows with na in the target column
 df = df.dropna(subset=["class_label"])
+df.head()
+```
+
+```{python}
+# rename class_label to is_poisonous for target clarity
+df.rename(columns={'class_label': 'is_poisonous'}, inplace=True)
 
 ```
 
@@ -91,38 +98,106 @@ df = df.dropna(subset=["class_label"])
 ```{python}
 # Basic information
 df.head()
+
+```
+
+```{python}
 df.info()
+
+```
+
+```{python}
 df.shape
+
+```
+
+```{python}
 df.isna().sum()
-df.describe()
+
 ```
 
 ```{python}
 # Encode "missing" (?) as NA
 (df == '?').sum()
+```
+
+```{python}
+# Encode "missing" (?) as NA
 df = df.replace('?', np.nan)
+
+```
+
+```{python}
 df.isna().sum()
+
 ```
 
 ```{python}
 # Inspect target variable: e = edible = 0, p = poisonous = 1
-df['class'].value_counts() 
-df['class'].value_counts(normalize=True)
-df['is_poisonous'] = (df['class'] == 'p').astype(int)
+df['is_poisonous'].value_counts() 
+
+```
+
+```{python}
+# Display the proportion of each mushroom class (edible vs poisonous)
 df['is_poisonous'].value_counts(normalize=True)
-```
-
-```{python}
-# 
 
 ```
 
 ```{python}
-# 
+# Check number of values for each categorical feature
+for col in df.columns:
+    if col in ["class", "is_poisonous"]:
+        continue
+    print(f"\n=== {col} ===")
+    print(df[col].value_counts())
+```
+
+```{python}
+def get_poison_rate_by(feature):
+  """
+  Compute the proportion of poisonous and edible mushrooms for each category
+  of a given feature.
+
+  This function calculates a normalized crosstab between the specified
+  categorical feature and the target variable `is_poisonous`. For each
+  category of the feature, it returns the fraction of mushrooms that are
+  edible and poisonous, sorted from most to least poisonous.
+
+  Parameters
+  ----------
+  feature : str
+      The name of the categorical column in `df` for which the poison rates
+      should be calculated.
+
+  Returns
+  -------
+  pandas.DataFrame
+      A DataFrame indexed by the feature's categories with two columns:
+      `edible_frac` and `poisonous_frac`, sorted in descending order of
+      `poisonous_frac`.
+  """
+  category_poisonous = pd.crosstab(df[feature], df['is_poisonous'], normalize='index')
+  category_poisonous.columns = ['edible_frac', 'poisonous_frac']
+  return category_poisonous.sort_values('poisonous_frac', ascending=False)
 
 ```
 
+```{python}
+# Check number of poisonous mushrooms for selected categorical features
 
+```
+
+```{python}
+# Poisonous fraction by odour
+
+
+```
+
+```{python}
+
+
+```
 # Results & Discussion
 
 # References 
@@ -132,3 +207,4 @@ Lincoff, G. H. (1981).The Audubon Society Field Guide to North American Mushroom
 Mushroom. (1981). UCI Machine Learning Repository. https://doi.org/10.24432/C5959T
 
 Diaz, J. H. (2016). Mistaken mushroom poisonings. Wilderness & Environmental Medicine, 27(2), 330-335.
+
