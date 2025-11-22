@@ -403,26 +403,79 @@ feature_importance_eda
 
 ```
 
-```{python}
+We are trying to classify whether a mushroom is edible (0) or poisonous (1). Going to do a 70/30 train/test split due to the large and roughly equal proportions of edible and poisonous mushrooms. 
 
+A random state of `123` will ensure reproducibility when ran by subsequent users.
+
+Before we continue, we must preprocess our data such that the features work with our models. Since all of our features are strings, we can opt to use one-hot encoding for them all.
+
+```{python}
+from sklearn.preprocessing import OneHotEncoder
+
+preprocessor = OneHotEncoder()
 
 ```
 
 ```{python}
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    df.loc[:,'class':'habitat'], df['is_poisonous'], test_size=0.3, random_state=123
+)
 
 
 ```
 
-
+We fit a `DummyClassifier` to our data as a baseline to compare our actual model with. Random state used again for reproducibility.
 
 ```{python}
+from sklearn.dummy import DummyClassifier
+from sklearn.model_selection import cross_validate
+from sklearn.pipeline import make_pipeline
 
+dc_pipe = make_pipeline(
+    preprocessor, 
+    DummyClassifier(random_state=123)
+)
 
+dc_pipe.fit(X_train, y_train)
+
+cross_val_dc = pd.DataFrame(
+    cross_validate(
+        dc_pipe, X_train, y_train, cv=10, n_jobs=-1, return_train_score=True
+    )).mean().to_frame().rename(columns={0: "mean_value"})
+
+cross_val_dc
+```
+
+In our classification problem, we opt to use `SVC` as our model of choice for its effective usage in this scenario. We do not have an extreme amount of data (< 10000 observations) on top of only being a binary classification task. 
+
+```{python}
+from sklearn.svm import SVC
+
+svc_pipe = make_pipeline(
+    preprocessor, 
+    SVC(random_state=123)
+)
+
+svc_pipe.fit(X_train, y_train)
+
+cross_val_svc = pd.DataFrame(
+    cross_validate(
+        svc_pipe, X_train, y_train, cv=10, n_jobs=-1, return_train_score=True
+    )).mean().to_frame().rename(columns={0: "mean_value"})
+
+cross_val_svc
 ```
 
 
 ```{python}
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
+y_pred = svc_pipe.predict(X_test)
+
+cm = confusion_matrix(y_test, y_pred)
+ConfusionMatrixDisplay(cm).plot()
 
 ```
 # Results & Discussion
