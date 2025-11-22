@@ -267,7 +267,6 @@ ring_type_map = {
 
 ```{python}
 def stacked_poison_chart(
-    figure_number: int,
     feature: str,
     feature_label: str | None = None,
     category_labels: dict[str, str] | None = None,
@@ -342,7 +341,6 @@ def stacked_poison_chart(
             ],
         )
         .properties(
-            title=f"Figure {figure_number}: Class proportions (edible vs poisonous) by {feature_label.lower()}",
             width=450,
         )
     )
@@ -351,32 +349,47 @@ def stacked_poison_chart(
 ```
 
 ```{python}
+#| label: fig-odor-cat
+#| fig-cap: "Class Proportions (edible vs poisonous) by Odor"
+
 # Visualize the edible vs poisonous class proportions for each odor category
-stacked_poison_chart(1, "odor", "Odor Category", odor_map)
+stacked_poison_chart("odor", "Odor Category", odor_map)
 
 ```
 
 ```{python}
+#| label: fig-gill-size
+#| fig-cap: "Class Proportions (edible vs poisonous) by Gill Size"
+
 # Visualize the edible vs poisonous class proportions for each gill size
-stacked_poison_chart(2, "gill_size", "Gill Size", gill_size_map)
+stacked_poison_chart("gill_size", "Gill Size", gill_size_map)
 
 ```
 
 ```{python}
+#| label: fig-habitat
+#| fig-cap: "Class Proportions (edible vs poisonous) by Habitat"
+
 # Visualize the edible vs poisonous class proportions for each habitat 
-stacked_poison_chart(3, "habitat", "Habitat", habitat_map)
+stacked_poison_chart("habitat", "Habitat", habitat_map)
 
 ```
 
 ```{python}
+#| label: fig-bruise
+#| fig-cap: "Class Proportions (edible vs poisonous) by Bruises"
+
 # Visualize the edible vs poisonous class proportions for each bruise category 
-stacked_poison_chart(4, "bruises", "Bruises", bruises_map)
+stacked_poison_chart("bruises", "Bruises", bruises_map)
 
 ```
 
 ```{python}
+#| label: fig-pop-type
+#| fig-cap: "Class Proportions (edible vs poisonous) by Population Type"
+
 # Visualize the edible vs poisonous class proportions for each population type 
-stacked_poison_chart(5, "population", "Population", population_map)
+stacked_poison_chart("population", "Population", population_map)
 
 ```
 
@@ -435,6 +448,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 We fit a `DummyClassifier` to our data as a baseline to compare our actual model with. Random state used again for reproducibility.
 
 ```{python}
+#| label: tbl-cross-val-dc
+#| tbl-cap: "Mean 10-Fold Cross-Validation Metrics for DummyClassifier Baseline"
 
 dc_pipe = make_pipeline(
     preprocessor, 
@@ -454,6 +469,8 @@ cross_val_dc
 In our classification problem, we opt to use `SVC` (Buitinck, L., Louppe, G., Blondel, M., Pedregosa,               Fabian, Mueller, A., Grisel, O., … Ga"el Varoquaux. (2013)) as our model of choice for its effective usage in this scenario. We do not have an extreme amount of data (< 10000 observations) on top of only being a binary classification task. 
 
 ```{python}
+#| label: tbl-cross-val-svc
+#| tbl-cap: "Mean 10-Fold Cross-Validation Metrics for SVC Model"
 
 svc_pipe = make_pipeline(
     preprocessor, 
@@ -472,6 +489,8 @@ cross_val_svc
 
 
 ```{python}
+#| label: fig-confusion-matrix-svc
+#| fig-cap: "Confusion matrix for the SVC classifier on the test set."
 
 y_pred = svc_pipe.predict(X_test)
 
