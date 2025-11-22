@@ -53,7 +53,7 @@ If re-using or re-mixing, please provide attribution and a link to this reposito
 The software code contained within this repository is licensed under the **MIT License**.  
 See the [LICENSE](LICENSE) file for more information.
 
-References
+## References
 Lincoff, G. H. (1981).The Audubon Society Field Guide to North American Mushrooms (1981). New York: Alfred A. Knopf
 
 Mushroom. (1981). UCI Machine Learning Repository. https://doi.org/10.24432/C5959T
