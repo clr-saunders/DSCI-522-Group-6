@@ -1,4 +1,4 @@
-# Contributing to the Poisonous Mushroom Predictor Project
+# Contributing to the Poisonous Mushroom Classifier Project
 
 This outlines how to propose a change to the Poisonous Mushroom Predictor project. Contributions are welcome since we realize the importance of change and improvement and aim to provide the best version of this project with the most useful results. If you have suggestions, feel free to leave a message or leave a comment for any of the core group members, we know how important it is that get feedback from others.
 
