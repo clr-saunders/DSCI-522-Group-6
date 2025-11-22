@@ -6,26 +6,9 @@ Our final SVC model demonstrated perfect predictive performance on the unseen te
 
 The dataset used was adapted from The Audubon Society Field Guide to North American Mushrooms by Gary Lincoff (1981) and contains 8124 hypothetical samples representing 23 mushroom species. Each sample includes 22 categorical features describing observable physical traits and a binary label indicating whether the mushroom is edible or poisonous. Future work could focus on testing the model with real-world image and exploring feature simplification to improve accessibility and practical use by amateur foragers.
 
-## Project Structure
-- `notebooks/poisonous_mushroom_classifier.qmd`: Quarto notebook containing the full analysis and report.
-The repository is organized as follows:
-
-- `data/`
-  - `raw/`: Contains the original downloaded dataset.
-  - `processed/`: Contains any intermediate processed data files.
-- `notebooks/`
-  - `poisonous_mushroom_classifier.qmd`: Main analysis document.
-  - `poisonous_mushroom_classifier.pdf`: Rendered report.
-- `environment.yml`: Conda environment file listing the required packages.
-- `conda-lock.yml`: Conda lock file specifying exact package versions for reproducibility.
-- `CODE_OF_CONDUCT.md`: Community guidelines for respectful collaboration.
-- `CONTRIBUTING.md`: Instructions for how others can contribute to the project.
-- `LICENSE`: License for the code and documentation.
-- `README.md`: Project overview and instructions.
-- `.gitignore`: Specifies which files and folders Git should ignore.
-
 ## Report
 The final report can be found [here](notebooks/poisonous_mushroom_classifier.qmd)
+
 ## Usage
 First time running the project, run the following from the root of this repository:
 
@@ -63,10 +46,14 @@ The software code contained within this repository is licensed under the **MIT L
 See the [LICENSE](LICENSE) file for more information.
 
 ## References
-Mushroom. (1981). UCI Machine Learning Repository. https://doi.org/10.24432/C5959T
-
-Lincoff, G. H. (1981).The Audubon Society Field Guide to North American Mushrooms (1981). New York: Alfred A. Knopf
+Buitinck, L., Louppe, G., Blondel, M., Pedregosa,               Fabian, Mueller, A., Grisel, O., … Ga"el Varoquaux. (2013). API design for machine learning software: experiences from the scikit-learn              project. In ECML PKDD Workshop: Languages for Data Mining and Machine Learning (pp. 108–122).
 
 Diaz, J. H. (2016). Mistaken mushroom poisonings. Wilderness & Environmental Medicine, 27(2), 330-335
 
-Buitinck, L., Louppe, G., Blondel, M., Pedregosa,               Fabian, Mueller, A., Grisel, O., … Ga"el Varoquaux. (2013). API design for machine learning software: experiences from the scikit-learn              project. In ECML PKDD Workshop: Languages for Data Mining and Machine Learning (pp. 108–122).
+Lincoff, G. H. (1981).The Audubon Society Field Guide to North American Mushrooms (1981). New York: Alfred A. Knopf
+
+Mushroom. (1981). UCI Machine Learning Repository. https://doi.org/10.24432/C5959T
+
+
+
+
