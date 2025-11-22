@@ -19,6 +19,7 @@ import zipfile
 import pandas as pd
 import numpy as np
 import altair as alt
+alt.renderers.enable("png")
 ```
 
 # Summary
@@ -448,7 +449,7 @@ cross_val_dc = pd.DataFrame(
 cross_val_dc
 ```
 
-In our classification problem, we opt to use `SVC` as our model of choice for its effective usage in this scenario. We do not have an extreme amount of data (< 10000 observations) on top of only being a binary classification task. 
+In our classification problem, we opt to use `SVC` (Buitinck, L., Louppe, G., Blondel, M., Pedregosa,               Fabian, Mueller, A., Grisel, O., … Ga"el Varoquaux. (2013)) as our model of choice for its effective usage in this scenario. We do not have an extreme amount of data (< 10000 observations) on top of only being a binary classification task. 
 
 ```{python}
 from sklearn.svm import SVC
@@ -500,3 +501,4 @@ Mushroom. (1981). UCI Machine Learning Repository. https://doi.org/10.24432/C595
 
 Diaz, J. H. (2016). Mistaken mushroom poisonings. Wilderness & Environmental Medicine, 27(2), 330-335.
 
+Buitinck, L., Louppe, G., Blondel, M., Pedregosa,               Fabian, Mueller, A., Grisel, O., … Ga"el Varoquaux. (2013). API design for machine learning software: experiences from the scikit-learn              project. In ECML PKDD Workshop: Languages for Data Mining and Machine Learning (pp. 108–122).
