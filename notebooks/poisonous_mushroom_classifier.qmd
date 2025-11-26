@@ -452,16 +452,19 @@ df.drop('veil_type', axis=1, inplace=True)
 X_train, X_test, y_train, y_test = train_test_split(
     df.loc[:,'cap_shape':'habitat'], df['is_poisonous'], test_size=0.3, random_state=123
 )
-
+# combine training features and targets for analysis of training data
+train_df = X_train.copy()
+train_df['is_poisonous'] = y_train
 ```
 
 ```{python}
- # Data Validation Check: Anomalous correlation between features
+ # Data Validation Check: Any Anomalous correlation between features or between features and the target? 
 
-# create list of all pairwise feature combinations 
-pairs = list(itertools.combinations(feature_cols, 2))
+# create list of all pairwise feature and feature-target combinations 
+train_df_cols = list(train_df.columns)
+pairs = list(itertools.combinations(train_df_cols, 2))
 
-# compute correlation for all feature pairs
+# compute correlation for all feature pairs and feature-target pairs 
 from scipy.stats import chi2_contingency
 
 def cramers_v(df, feature1, feature2):
@@ -481,10 +484,10 @@ def cramers_v(df, feature1, feature2):
     return np.sqrt(phi2 / min(k-1, r-1))
 
 # create empty df with diagonal equal to 1
-cramers_matrix = pd.DataFrame(np.eye(len(feature_cols)), columns=feature_cols, index=feature_cols) 
+cramers_matrix = pd.DataFrame(np.eye(len(train_df_cols)), columns=train_df_cols, index=train_df_cols) 
 
 for feature1, feature2 in pairs:
-    v = cramers_v(X_train, feature1, feature2)
+    v = cramers_v(train_df, feature1, feature2)
     cramers_matrix.loc[feature1, feature2] = v
     cramers_matrix.loc[feature2, feature1] = v
 
