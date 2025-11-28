@@ -516,7 +516,7 @@ correlation_heatmap
 Before we continue, we must preprocess our data such that the features work with our models. Since all of our features are strings, we can opt to use one-hot encoding for them all. 
 
 ```{python}
-preprocessor = OneHotEncoder()
+preprocessor = OneHotEncoder(handle_unkown="ignore")
 
 ```
 
