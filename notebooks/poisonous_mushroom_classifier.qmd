@@ -86,6 +86,19 @@ DATA_PATH = DATA_DIR / "agaricus-lepiota.data"
 ```
 
 ```{python}
+# File extension validation
+correct_exts = {".csv", ".data"}
+ext = DATA_PATH.suffix.lower()
+
+assert ext in correct_exts, (
+    f"[File format] Unexpected extension '{ext}'. "
+    f"Expected one of: {sorted(correct_exts)}."
+)
+
+print("[OK] File extension validated.")
+```
+
+```{python}
 # Download only if the data file does not already exist
 print("working")
 if not DATA_PATH.exists():
@@ -105,6 +118,7 @@ if not DATA_PATH.exists():
 else:
     print(f"[INFO] Using existing data file at: {DATA_PATH}")
 ```
+
 
 # Data cleaning and wrangling
 ```{python}
@@ -130,6 +144,24 @@ df.head()
 ```
 
 A preview of the first five rows of the raw dataset is shown in Table @tbl-sample-data, which illustrates the categorical structure of all features prior to cleaning.
+
+## Data Validation Checks
+
+```{python}
+# Pandera Duplicate-Row Check (DataFrame-wide validation)
+duplicate_check_schema = pa.DataFrameSchema(
+    columns=None,
+    checks=[
+        pa.Check(
+            lambda df: ~df.duplicated().any(),
+            error="Duplicate rows found in the dataset."
+        )
+    ]
+)
+
+duplicate_check_schema.validate(df, lazy=True)
+print("[OK] No duplicate rows found in the dataset (Pandera validation).")
+```
 
 ```{python}
 
@@ -158,14 +190,6 @@ print(
 
 ```
 
-```{python}
-# # Changing the target to numeric values: poisonous=1, edible=0
-# df["is_poisonous"] = df["class"].map({"p": 1, "e": 0})
-
-# # Drop rows with na in the target column
-# df = df.dropna(subset=["is_poisonous"])
-# df.head()
-```
 
 ```{python}
 # Correct category levels check (i.e., no string mismatches or single values)
@@ -263,7 +287,98 @@ df.isna().sum()
 
 ```
 
+```{python}
+# Validate cleaned column names
+# Given that the dataset we read in for this model did not include headers, we assigned the names and hence encoded the correct column names initially upon read in. Here, I confirm the column names match expectations after dropping "stalk_root" and changing the name of "class" to "is_poisonous"
+expected_cols_cleaned = [
+    col for col in dataset_col_names if col not in ["stalk_root", "class"]
+] + ["is_poisonous"]
 
+assert list(df.columns) == expected_cols_cleaned, \
+    "The dataframe does not have the expected column names after cleaning."
+
+print("[OK] Cleaned column names validated.")
+```
+
+```{python}
+# Pandera: validate cleaned dataframe schema
+#   - All feature columns are strings
+#   - Target column is integer and only takes values {0, 1}
+
+schema = pa.DataFrameSchema(
+    {
+        # All predictor/feature columns: stored as strings
+        **{
+            col: pa.Column(str)
+            for col in expected_cols_cleaned
+            if col != "is_poisonous"
+        },
+        # Target column: must be integer and in the set {0, 1}
+        "is_poisonous": pa.Column(
+            int,
+            pa.Check.isin([0, 1]),
+        ),
+    }
+)
+
+# Validate the cleaned dataframe against the schema
+schema.validate(df, lazy=True)
+
+print(
+    "[OK] Pandera schema validation passed:\n"
+    "   - all feature columns are string-typed\n"
+    "   - 'is_poisonous' contains only 0/1 as expected."
+)
+
+```
+
+### Interpretation of Outlier / Anomalous Value Checks
+
+All features in this dataset are categorical, so traditional numeric outlier checks (e.g., detecting extreme continuous values) do not apply.
+Instead, the relevant "anomalous values" for categorical data are unexpected or invalid category levels.
+
+We addressed this by validating every categorical column against the official list of allowed levels from the UCI dataset documentation.
+Since all observed category values matched their expected sets, we conclude that no anomalous values are present in this dataset.
+
+```{python}
+# Ensure there are no completely empty rows
+mushroom_schema = pa.DataFrameSchema(
+    {
+        "cap_shape": pa.Column(str),
+        "cap_surface": pa.Column(str),
+        "cap_color": pa.Column(str),
+        "bruises": pa.Column(str),
+        "odor": pa.Column(str),
+        "gill_attachment": pa.Column(str),
+        "gill_spacing": pa.Column(str),
+        "gill_size": pa.Column(str),
+        "gill_color": pa.Column(str),
+        "stalk_shape": pa.Column(str),
+        "stalk_surface_above_ring": pa.Column(str),
+        "stalk_surface_below_ring": pa.Column(str),
+        "stalk_color_above_ring": pa.Column(str),
+        "stalk_color_below_ring": pa.Column(str),
+        "veil_type": pa.Column(str),
+        "veil_color": pa.Column(str),
+        "ring_number": pa.Column(str),
+        "ring_type": pa.Column(str),
+        "spore_print_color": pa.Column(str),
+        "population": pa.Column(str),
+        "habitat": pa.Column(str),
+        "is_poisonous": pa.Column(int),
+    },
+    checks=[
+        # No empty observations: no row where *all* columns are missing
+        Check(
+            lambda df: ~(df.isna().all(axis=1)).any(),
+            error="Empty rows found."
+        )
+    ],
+)
+
+# Validate the cleaned dataframe (will raise if check fails)
+df = mushroom_schema.validate(df, lazy=True)
+```
 
 # EDA Before Data Splitting 
 
@@ -275,16 +390,6 @@ df.info()
 
 ```{python}
 df.shape
-```
-
-```{python}
-# Data Validation Check: Correct Column Names
-
-# given that the dataset we read in for this model did not include headers, we assigned the names and hence encoded the correct column names initially upon read in. Here, I confirm the column names match expectations after dropping "stalk_root" and changing the name of "class" to "is_poisonous"
-
-expected_col_names = [col for col in dataset_col_names if col not in ['stalk_root', 'class']] + ['is_poisonous']
-actual_col_names = list(df.columns)
-assert expected_col_names == actual_col_names, "The dataframe does not have the expected column names"
 ```
 
 # Data Splitting 
@@ -563,22 +668,22 @@ feature_cols = [col for col in df.columns if col not in exclude]
 
 ```{python}
 
-'''Correct Data File Format Check'''
-data_path = "../data/raw/agaricus-lepiota.data"
-correct_exts = {".csv",".data"}
-ext = os.path.splitext(data_path)[1].lower()
-assert ext in correct_exts, (
-    f"[File format] '{data_path}' has extension '{ext}', "
-    f"expected one of {sorted(correct_exts)}."
-)
+# '''Correct Data File Format Check'''
+# data_path = "../data/raw/agaricus-lepiota.data"
+# correct_exts = {".csv",".data"}
+# ext = os.path.splitext(data_path)[1].lower()
+# assert ext in correct_exts, (
+#     f"[File format] '{data_path}' has extension '{ext}', "
+#     f"expected one of {sorted(correct_exts)}."
+# )
 
-'''No Duplicate Observations Check'''
-duplicates = df.duplicated().sum()
-assert duplicates == 0, (
-    f"Found {duplicates} full-row duplicates."
-)
+# '''No Duplicate Observations Check'''
+# duplicates = df.duplicated().sum()
+# assert duplicates == 0, (
+#     f"Found {duplicates} full-row duplicates."
+# )
 
-'''All the features in this dataset are categorical, so we can't check numeric outliers. With respect to anomalous values, we confirmed earlier in the check for correct category levels that all categories only include the expected values.'''
+
 ```
 
 #### Relationship Between Physical Features and Toxicity: An Exploratory Overview
