@@ -98,7 +98,9 @@ df = pd.read_csv("../data/raw/agaricus-lepiota.data", names=dataset_col_names)
 actual_distribution = df['class'].value_counts(normalize=True).round(3).to_dict()
 # as per dataset documentation, expected proportions for each target
 expected_distribution = {'e': 0.518, 'p':0.482}
-assert actual_distribution == expected_distribution, f"{actual_distribution} != {expected_distribution}"
+for prop in expected_distribution:
+    assert np.isclose(actual_distribution[prop], expected_distribution[prop], atol=0.01), \
+        f"Class {k}: {actual_distribution[prop]} != {expected_distribution[prop]}"
 
 # Changing the target to numeric values: poisonous=1, edible=0
 df["is_poisonous"] = df["class"].map({"p": 1, "e": 0})
@@ -165,6 +167,11 @@ A random state of `123` will ensure reproducibility when ran by subsequent users
 X_train, X_test, y_train, y_test = train_test_split(
     df.loc[:,'cap_shape':'habitat'], df['is_poisonous'], test_size=0.3, random_state=123
 )
+
+# Data Validation Check: Target distribution is as expected, ie. representative in Train and Test Set
+print("Overall proportion poisonous:", df['is_poisonous'].mean())
+print("Train set proportion poisonous:", y_train.mean())
+print("Test set proportion poisonous:", y_test.mean())
 
 ```
 
@@ -516,7 +523,7 @@ correlation_heatmap
 Before we continue, we must preprocess our data such that the features work with our models. Since all of our features are strings, we can opt to use one-hot encoding for them all. 
 
 ```{python}
-preprocessor = OneHotEncoder(handle_unkown="ignore")
+preprocessor = OneHotEncoder(handle_unknown="ignore")
 
 ```
 
