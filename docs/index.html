@@ -70,7 +70,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="poisonous_mushroom_classifier_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="poisonous_mushroom_classifier_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="poisonous_mushroom_classifier_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="poisonous_mushroom_classifier_files/libs/bootstrap/bootstrap-57f057cbbb0fdd8c1080e4fba4ea78e6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="poisonous_mushroom_classifier_files/libs/bootstrap/bootstrap-c7ec638b845f1412a9a95e6aa29b96d0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="imports" class="level1">
 <h1>Imports</h1>
 <p><em>Never forget to run imports first.</em></p>
-<div id="af303065" class="cell" data-execution_count="1">
+<div id="847963e8" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="analysis" class="level1">
 <h1>Analysis</h1>
-<div id="d63d98e3" class="cell" data-execution_count="2">
+<div id="91d5937b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#adding the downloaded data to the data directory by code</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># download data as zip and extract</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://archive.ics.uci.edu/static/public/73/mushroom.zip"</span></span>
@@ -170,7 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="data-validation-checks" class="level2">
 <h2 class="anchored" data-anchor-id="data-validation-checks">Data Validation Checks</h2>
-<div id="d9f59c3b" class="cell" data-execution_count="3">
+<div id="56650c9b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">'''Correct Data File Format Check'''</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_path <span class="op">=</span> <span class="st">"../data/raw/agaricus-lepiota.data"</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>correct_exts <span class="op">=</span> {<span class="st">".csv"</span>,<span class="st">".data"</span>}</span>
@@ -178,15 +178,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> ext <span class="kw">in</span> correct_exts, (</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"[File format] '</span><span class="sc">{</span>data_path<span class="sc">}</span><span class="ss">' has extension '</span><span class="sc">{</span>ext<span class="sc">}</span><span class="ss">', "</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"expected one of </span><span class="sc">{</span><span class="bu">sorted</span>(correct_exts)<span class="sc">}</span><span class="ss">."</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># All the features in this dataset are categorical, so we can't check numeric outliers. With respect to anomalous values, we confirmed earlier in the check for correct category levels that all categories only include the expected values.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="data-cleaning-and-wrangling" class="level1">
 <h1>Data cleaning and wrangling</h1>
-<div id="6d885038" class="cell" data-execution_count="4">
+<div id="86fea29b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Expected data column names</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dataset_col_names <span class="op">=</span> [</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"class"</span>, <span class="st">"cap_shape"</span>, <span class="st">"cap_surface"</span>, <span class="st">"cap_color"</span>, <span class="st">"bruises"</span>, <span class="st">"odor"</span>,</span>
@@ -373,7 +371,7 @@ Table&nbsp;1: First five rows of the raw dataset.
 <p>A preview of the first five rows of the raw dataset is shown in Table <a href="#tbl-sample-data" class="quarto-xref">Table&nbsp;1</a>, which illustrates the categorical structure of all features prior to cleaning.</p>
 <section id="data-validation-checks-1" class="level2">
 <h2 class="anchored" data-anchor-id="data-validation-checks-1">Data Validation Checks</h2>
-<div id="dbf543c8" class="cell" data-execution_count="6">
+<div id="70dc2d83" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">'''No Duplicate Observations Check'''</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>duplicates <span class="op">=</span> df.duplicated().<span class="bu">sum</span>()</span>
@@ -381,8 +379,8 @@ Table&nbsp;1: First five rows of the raw dataset.
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Found </span><span class="sc">{</span>duplicates<span class="sc">}</span><span class="ss"> full-row duplicates."</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c7ae4e5a" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Validation Check: Target follows expected distribution</span></span>
+<div id="f814ca72" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">'''Target follows expected distribution'''</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>actual_distribution <span class="op">=</span> (</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"class"</span>]</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    .value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span>
@@ -408,7 +406,7 @@ Table&nbsp;1: First five rows of the raw dataset.
 <pre><code>[OK] Target distribution matches expected proportions (within tolerance).</code></pre>
 </div>
 </div>
-<div id="10c97b88" class="cell" data-execution_count="8">
+<div id="6edf6ec5" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">'''Correct category levels check (i.e., no string mismatches or single values)'''</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -495,7 +493,7 @@ Table&nbsp;1: First five rows of the raw dataset.
 <span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="kw">not</span> invalid, <span class="ss">f"</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss"> has invalid values: </span><span class="sc">{</span>invalid<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="72a65551" class="cell" data-execution_count="9">
+<div id="ac73e430" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic missingness summary (raw data)</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
@@ -525,7 +523,7 @@ habitat                     0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="9bc9afd3" class="cell" data-execution_count="10">
+<div id="c48a6a88" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Encoded missingness via '?':</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>(df <span class="op">==</span> <span class="st">"?"</span>).<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
@@ -555,26 +553,26 @@ habitat                        0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="b8a9ddd2" class="cell" data-execution_count="11">
+<div id="4b167f45" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert "?" markers to proper NaN in case any other should occur apart from the known `stalk_root`_ just thinking real-world applications</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.replace(<span class="st">"?"</span>, np.nan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0cf1c20c" class="cell" data-execution_count="12">
+<div id="8f2b0de8" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Changing the target to numeric values: poisonous=1, edible=0</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"is_poisonous"</span>] <span class="op">=</span> df[<span class="st">"class"</span>].<span class="bu">map</span>({<span class="st">"p"</span>: <span class="dv">1</span>, <span class="st">"e"</span>: <span class="dv">0</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7c849569" class="cell" data-execution_count="13">
+<div id="c02fd714" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with NaN in the target column (none expected, but safe)</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">"is_poisonous"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="13890ce2" class="cell" data-execution_count="14">
+<div id="d35cfa0f" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop stalk_root column due to missing values and original target column "class" because numeric column of target values "is_poisonous" added to replace it</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>[<span class="st">'stalk_root'</span>, <span class="st">'class'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="467540d9" class="cell" data-execution_count="15">
+<div id="fc891a88" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check remaining missing values</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -603,7 +601,7 @@ is_poisonous                0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="d3cf7bc7" class="cell" data-execution_count="16">
+<div id="de9579ed" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate cleaned column names</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Given that the dataset we read in for this model did not include headers, we assigned the names and hence encoded the correct column names initially upon read in. Here, I confirm the column names match expectations after dropping "stalk_root" and changing the name of "class" to "is_poisonous"</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>expected_cols_cleaned <span class="op">=</span> [</span>
@@ -618,7 +616,7 @@ dtype: int64</code></pre>
 <pre><code>[OK] Cleaned column names validated.</code></pre>
 </div>
 </div>
-<div id="920293c5" class="cell" data-execution_count="17">
+<div id="53b970dc" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pandera: validate cleaned dataframe schema</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   - All feature columns are strings</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   - Target column is integer and only takes values {0, 1}</span></span>
@@ -657,7 +655,7 @@ dtype: int64</code></pre>
 <h3 class="anchored" data-anchor-id="interpretation-of-outlier-anomalous-value-checks">Interpretation of Outlier / Anomalous Value Checks</h3>
 <p>All features in this dataset are categorical, so traditional numeric outlier checks (e.g., detecting extreme continuous values) do not apply. Instead, the relevant “anomalous values” for categorical data are unexpected or invalid category levels.</p>
 <p>We addressed this by validating every categorical column against the official list of allowed levels from the UCI dataset documentation. Since all observed category values matched their expected sets, we conclude that no anomalous values are present in this dataset.</p>
-<div id="53b806aa" class="cell" data-execution_count="18">
+<div id="336531e5" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pandera: validate cleaned dataframe schema    </span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - Ensure there are no completely empty rows</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># - all columns must be present</span></span>
@@ -891,7 +889,7 @@ Table&nbsp;2: First five rows of the cleaned dataset.
 </figure>
 </div>
 </div>
-<div id="0a156b83" class="cell" data-execution_count="20">
+<div id="3c56b876" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic information</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -926,7 +924,7 @@ dtypes: int64(1), object(21)
 memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
-<div id="ef245439" class="cell" data-execution_count="21">
+<div id="f3686a98" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data dimensions</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
@@ -938,7 +936,7 @@ memory usage: 1.4+ MB</code></pre>
 <h1>Data Splitting</h1>
 <p>We are trying to classify whether a mushroom is edible (0) or poisonous (1). Going to do a 70/30 train/test split due to the large and roughly equal proportions of edible and poisonous mushrooms.</p>
 <p>A random state of <code>123</code> will ensure reproducibility when ran by subsequent users.</p>
-<div id="5ea5ac39" class="cell" data-execution_count="22">
+<div id="ba5efe48" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train–test split at the row level</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   - Keeps all columns together in each split</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   - Stratify on the target to preserve class balance</span></span>
@@ -959,7 +957,7 @@ memory usage: 1.4+ MB</code></pre>
 Test df shape:  (2438, 22)</code></pre>
 </div>
 </div>
-<div id="11d5fd4e" class="cell" data-execution_count="23">
+<div id="912bbccd" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build X/y for model training and evaluation from splits</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train_df.drop(columns<span class="op">=</span>[<span class="st">"is_poisonous"</span>])</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train_df[<span class="st">"is_poisonous"</span>]</span>
@@ -970,7 +968,7 @@ Test df shape:  (2438, 22)</code></pre>
 </section>
 <section id="eda-after-data-splitting" class="level1">
 <h1>EDA After Data Splitting</h1>
-<div id="f9407e9c" class="cell" data-execution_count="24">
+<div id="62451fc6" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check: class balance in the training data</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>train_target_counts <span class="op">=</span> train_df[<span class="st">"is_poisonous"</span>].value_counts()</span>
@@ -995,7 +993,7 @@ poisonous (1)    0.482
 Name: proportion, dtype: float64</code></pre>
 </div>
 </div>
-<div id="9dc3cdec" class="cell" data-execution_count="25">
+<div id="7469923c" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Validation: check training target distribution roughly matches UCI proportions</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>expected_dist <span class="op">=</span> {<span class="st">"e"</span>: <span class="fl">0.518</span>, <span class="st">"p"</span>: <span class="fl">0.482</span>}</span>
@@ -1018,7 +1016,7 @@ Name: proportion, dtype: float64</code></pre>
 <pre><code>[OK] Training set poisonous proportion (0.482) is close to expected (0.482).</code></pre>
 </div>
 </div>
-<div id="ea59b0c3" class="cell" data-execution_count="26">
+<div id="76814ad7" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature column names</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="op">=</span> X_train.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1087,24 +1085,24 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">4</td>
-<td>stalk_color_above_ring</td>
-<td>9</td>
-<td>w</td>
-<td>3131</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">5</td>
 <td>spore_print_color</td>
 <td>9</td>
 <td>w</td>
 <td>1655</td>
 </tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">6</td>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
 <td>stalk_color_below_ring</td>
 <td>9</td>
 <td>w</td>
 <td>3071</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>stalk_color_above_ring</td>
+<td>9</td>
+<td>w</td>
+<td>3131</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">7</td>
@@ -1115,17 +1113,17 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">8</td>
-<td>cap_shape</td>
-<td>6</td>
-<td>x</td>
-<td>2534</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">9</td>
 <td>population</td>
 <td>6</td>
 <td>v</td>
 <td>2813</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9</td>
+<td>cap_shape</td>
+<td>6</td>
+<td>x</td>
+<td>2534</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">10</td>
@@ -1150,17 +1148,17 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">13</td>
-<td>stalk_surface_above_ring</td>
-<td>4</td>
-<td>s</td>
-<td>3630</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">14</td>
 <td>veil_color</td>
 <td>4</td>
 <td>w</td>
 <td>5542</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">14</td>
+<td>stalk_surface_above_ring</td>
+<td>4</td>
+<td>s</td>
+<td>3630</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">15</td>
@@ -1171,10 +1169,10 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">16</td>
-<td>bruises</td>
+<td>stalk_shape</td>
 <td>2</td>
-<td>f</td>
-<td>3330</td>
+<td>t</td>
+<td>3211</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">17</td>
@@ -1185,10 +1183,10 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">18</td>
-<td>stalk_shape</td>
+<td>gill_spacing</td>
 <td>2</td>
-<td>t</td>
-<td>3211</td>
+<td>c</td>
+<td>4766</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">19</td>
@@ -1199,10 +1197,10 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">20</td>
-<td>gill_spacing</td>
+<td>bruises</td>
 <td>2</td>
-<td>c</td>
-<td>4766</td>
+<td>f</td>
+<td>3330</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">21</td>
@@ -1221,7 +1219,7 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 </div>
 </div>
 <p>We summarize all 21 categorical predictors in Table <a href="#tbl-feature-summary" class="quarto-xref">Table&nbsp;3</a>, which reports the number of levels and the dominant category for each feature. Given that veil_type only has one level, the values are the same for all observations so we drop that column.</p>
-<div id="fbfcaa85" class="cell" data-execution_count="28">
+<div id="4f53cab0" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop veil_type from the feature matrices used for modeling. If check added to prevent error if not present_ in case the cell is run multiple times</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"veil_type"</span> <span class="kw">in</span> X_train.columns:</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    X_train <span class="op">=</span> X_train.drop(columns<span class="op">=</span>[<span class="st">"veil_type"</span>])</span>
@@ -1231,7 +1229,7 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    feature_cols <span class="op">=</span> X_train.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>veil_type</code> was dropped because it contains only a single category for all observations. A feature with no variation cannot help the model distinguish edible from poisonous mushrooms, provides no predictive signal, and only adds redundant columns after one-hot encoding. Therefore, it is removed to simplify the feature set and prevent unnecessary model complexity.</p>
-<div id="225d1049" class="cell" data-execution_count="29">
+<div id="b50ac6bb" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_poison_rate_by(feature: <span class="bu">str</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Compute the proportion of poisonous and edible mushrooms for each category</span></span>
@@ -1256,7 +1254,7 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 <span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>  category_poisonous.columns <span class="op">=</span> [<span class="st">'edible_frac'</span>, <span class="st">'poisonous_frac'</span>]</span>
 <span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> category_poisonous.sort_values(<span class="st">'poisonous_frac'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d796c663" class="cell" data-execution_count="30">
+<div id="9d6f82ad" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature category maps</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>odor_map <span class="op">=</span> {</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"a"</span>: <span class="st">"almond"</span>,</span>
@@ -1310,7 +1308,7 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 <span id="cb41-51"><a href="#cb41-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">"z"</span>: <span class="st">"zone"</span>,</span>
 <span id="cb41-52"><a href="#cb41-52" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4ca96d5a" class="cell" data-execution_count="31">
+<div id="a21d98be" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stacked_poison_chart(</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    feature: <span class="bu">str</span>,</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    feature_label: <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>,</span>
@@ -1527,22 +1525,22 @@ Table&nbsp;4: Ranking of features by how well they distinguish poisonous mushroo
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">4</td>
-<td>stalk_color_below_ring</td>
+<td>ring_type</td>
 <td>0.21</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">5</td>
-<td>ring_type</td>
+<td>stalk_color_below_ring</td>
 <td>0.21</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">6</td>
-<td>ring_number</td>
+<td>spore_print_color</td>
 <td>0.20</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">7</td>
-<td>spore_print_color</td>
+<td>ring_number</td>
 <td>0.20</td>
 </tr>
 <tr class="even">
@@ -1552,12 +1550,12 @@ Table&nbsp;4: Ranking of features by how well they distinguish poisonous mushroo
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">9</td>
-<td>gill_color</td>
+<td>cap_shape</td>
 <td>0.14</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">10</td>
-<td>cap_shape</td>
+<td>gill_color</td>
 <td>0.14</td>
 </tr>
 <tr class="odd">
@@ -1567,22 +1565,22 @@ Table&nbsp;4: Ranking of features by how well they distinguish poisonous mushroo
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">12</td>
-<td>gill_spacing</td>
+<td>stalk_surface_above_ring</td>
 <td>0.11</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">13</td>
-<td>habitat</td>
+<td>stalk_surface_below_ring</td>
 <td>0.11</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">14</td>
-<td>stalk_surface_below_ring</td>
+<td>gill_spacing</td>
 <td>0.11</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">15</td>
-<td>stalk_surface_above_ring</td>
+<td>habitat</td>
 <td>0.11</td>
 </tr>
 <tr class="even">
@@ -1701,7 +1699,7 @@ Figure&nbsp;6: Correlation heatmap (Cramér’s V) for all feature and feature-t
 <section id="model" class="level1">
 <h1>Model</h1>
 <p>Before we continue, we must preprocess our data such that the features work with our models. Since all of our features are strings, we can opt to use one-hot encoding for them all.</p>
-<div id="2430da59" class="cell" data-execution_count="39">
+<div id="9ea05a65" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proprocessor</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>preprocessor <span class="op">=</span> OneHotEncoder(handle_unknown<span class="op">=</span><span class="st">"ignore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1740,11 +1738,11 @@ Table&nbsp;5: Mean 10-Fold Cross-Validation Metrics for DummyClassifier Baseline
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">fit_time</td>
-<td>0.024176</td>
+<td>0.035725</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">score_time</td>
-<td>0.004162</td>
+<td>0.010158</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">test_score</td>
@@ -1798,11 +1796,11 @@ Table&nbsp;6: Mean 10-Fold Cross-Validation Metrics for SVC Model
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">fit_time</td>
-<td>0.439236</td>
+<td>0.499528</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">score_time</td>
-<td>0.031448</td>
+<td>0.046348</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">test_score</td>
