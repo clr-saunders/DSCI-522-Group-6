@@ -6,13 +6,7 @@ USER root
 
 RUN sudo -S \
     apt-get update && apt-get install -y \
-    gdebi \
-    texlive-latex-recommended \
-    texlive-fonts-recommended \
-    texlive-latex-base \
-    texlive-fonts-extra \
-    && mktexlsr \
-    && rm -rf /var/lib/apt/lists/*
+    gdebi
 
 RUN mamba install --quiet --file /tmp/conda-lock.yml \
 	&& mamba clean --all -y -f \
