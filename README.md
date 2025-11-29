@@ -7,7 +7,7 @@ Our final SVC model demonstrated perfect predictive performance on the unseen te
 The dataset used was adapted from The Audubon Society Field Guide to North American Mushrooms by Gary Lincoff (1981) and contains 8124 hypothetical samples representing 23 mushroom species. Each sample includes 22 categorical features describing observable physical traits and a binary label indicating whether the mushroom is edible or poisonous. Future work could focus on testing the model with real-world image and exploring feature simplification to improve accessibility and practical use by amateur foragers.
 
 ## Report
-The final report can be found [here](notebooks/poisonous_mushroom_classifier.qmd)
+The final report can be found [here](docs/poisonous_mushroom_classifier.qmd)
 
 ## Dependencies
 - Docker
