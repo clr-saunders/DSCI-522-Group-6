@@ -92,7 +92,7 @@ assert ext in correct_exts, (
     f"expected one of {sorted(correct_exts)}."
 )
 
-'''All the features in this dataset are categorical, so we can't check numeric outliers. With respect to anomalous values, we confirmed earlier in the check for correct category levels that all categories only include the expected values.'''
+# All the features in this dataset are categorical, so we can't check numeric outliers. With respect to anomalous values, we confirmed earlier in the check for correct category levels that all categories only include the expected values.
 ```
 
 
