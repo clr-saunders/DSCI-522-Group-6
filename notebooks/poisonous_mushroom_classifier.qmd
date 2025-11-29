@@ -192,56 +192,95 @@ print(
 
 
 ```{python}
-# Correct category levels check (i.e., no string mismatches or single values)
+'''Correct category levels check (i.e., no string mismatches or single values)'''
+
+
 allowed_values = {
+
+
     "class": ["e", "p"],
+
+
     "cap_shape": ["b", "c", "x", "f", "k", "s"],
+
+
     "cap_surface": ["f", "g", "y", "s"],
+
+
     "cap_color": ["n", "b", "c", "g", "r", "p", "u", "e", "w", "y"],
+
+
     "bruises": ["t", "f"],
+
+
     "odor": ["a", "l", "c", "y", "f", "m", "n", "p", "s"],
+
+
     "gill_attachment": ["a", "d", "f", "n"],
+
+
     "gill_spacing": ["c", "w", "d"],
+
+
     "gill_size": ["b", "n"],
+
+
     "gill_color": ["k", "n", "b", "h", "g", "r", "o", "p", "u", "e", "w", "y"],
+
+
     "stalk_shape": ["e", "t"],
+
+
     "stalk_root": ["b", "c", "u", "e", "z", "r", "?"],  # ? = missing
+
+
     "stalk_surface_above_ring": ["f", "y", "k", "s"],
+
+
     "stalk_surface_below_ring": ["f", "y", "k", "s"],
+
+
     "stalk_color_above_ring": ["n", "b", "c", "g", "o", "p", "e", "w", "y"],
+
+
     "stalk_color_below_ring": ["n", "b", "c", "g", "o", "p", "e", "w", "y"],
+
+
     "veil_type": ["p", "u"],
+
+
     "veil_color": ["n", "o", "w", "y"],
+
+
     "ring_number": ["n", "o", "t"],
+
+
     "ring_type": ["c", "e", "f", "l", "n", "p", "s", "z"],
+
+
     "spore_print_color": ["k", "n", "b", "h", "r", "o", "u", "w", "y"],
+
+
     "population": ["a", "c", "n", "s", "v", "y"],
+
+
     "habitat": ["g", "l", "m", "p", "u", "w", "d"]
+
+
 }
 
+
+for col, allowed in allowed_values.items():
+
+
+    invalid = set(df[col].dropna().unique()) - set(allowed)
+
+
+    assert not invalid, f"{col} has invalid values: {invalid}"
+
+
 ```
 
-```{python}
-
-# Build a Pandera schema where each categorical column:
-# - is a string
-# - is restricted to its documented levels via Check.isin(...)
-category_schema = pa.DataFrameSchema(
-    {
-        col: pa.Column(
-            str,
-            pa.Check.isin(allowed),
-            nullable=False,  # all values should be present at this stage
-        )
-        for col, allowed in allowed_values.items()
-    }
-)
-
-# Validate df against the schema
-category_schema.validate(df, lazy=True)
-
-print("[OK] All categorical columns contain only expected levels (Pandera validation).")
-```
 
 
 ```{python}
