@@ -230,12 +230,6 @@ def main(raw_data):
         stratify=df["is_poisonous"],
     )
     
-    print(
-        "Train df shape: ", train_df.shape,
-        "\nTest df shape: ", test_df.shape
-        )
-    
-    
     # Build X/y for model training and evaluation from splits
     X_train = train_df.drop(columns=["is_poisonous"])
     y_train = train_df["is_poisonous"]
