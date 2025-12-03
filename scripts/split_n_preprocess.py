@@ -27,7 +27,7 @@ def main(raw_data):
     df.head()
     
     # Data Validation Checks
-    '' No duplicate observations '''
+    ''' No duplicate observations '''
     duplicates = df.duplicated().sum()
     assert duplicates == 0, (
         f"Found {duplicates} full-row duplicates."
@@ -116,11 +116,9 @@ def main(raw_data):
     
     
     # Changing the target to numeric values: poisonous=1, edible=0
-    
     df["is_poisonous"] = df["class"].map({"p": 1, "e": 0})
     
     # Drop rows with NaN in the target column (none expected, but safe)
-    
     df = df.dropna(subset=["is_poisonous"])
     
     
@@ -220,11 +218,6 @@ def main(raw_data):
     
     
     # Data Splitting 
-    
-    We are trying to classify whether a mushroom is edible (0) or poisonous (1). Going to do a 70/30 train/test split due to the large and roughly equal proportions of edible and poisonous mushrooms. 
-    
-    A random state of `123` will ensure reproducibility when ran by subsequent users.
-    
     
     # Train–test split at the row level
     #   - Keeps all columns together in each split
