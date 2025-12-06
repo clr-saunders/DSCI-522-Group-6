@@ -303,6 +303,40 @@ def save_stacked_charts(train_df: pd.DataFrame) -> None:
         chart.save(out_path)  # extension `.png` tells Altair to export PNG
         print(f"Saved stacked chart for '{feature}' to {out_path}")
 
+def compute_and_save_poison_variance_rank(train_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Rank features by how strongly they separate poisonous vs edible mushrooms.
+
+    Uses the variance of the 'poisonous_frac' across categories of each feature
+    as an association measure.
+    """
+    feature_cols = [c for c in train_df.columns if c != "is_poisonous"]
+
+    feature_scores: list[dict] = []
+
+    for col in feature_cols:
+        ct = get_poison_rate_by(train_df, col)
+        score = ct["poisonous_frac"].var()
+        feature_scores.append(
+            {
+                "feature": col,
+                "poison_variance": round(float(score), 2),
+            }
+        )
+
+    feature_importance_eda = (
+        pd.DataFrame(feature_scores)
+        .sort_values("poison_variance", ascending=False)
+        .reset_index(drop=True)
+    )
+    feature_importance_eda.index = feature_importance_eda.index + 1
+
+    out_path = TABLES_DIR / "feature_poison_variance_rank.csv"
+    feature_importance_eda.to_csv(out_path, index=True)
+    print(f"Saved poison-variance feature ranking to {out_path}")
+
+    return feature_importance_eda
+
 
 def cramers_v(df: pd.DataFrame, feature1: str, feature2: str) -> float:
     """Compute Cramér's V between two categorical features."""
@@ -361,6 +395,8 @@ def compute_and_save_cramers_matrix(train_df: pd.DataFrame) -> None:
     heatmap_path = FIGURES_DIR / "cramers_v_heatmap.png"
     heatmap.save(heatmap_path)
     print(f"Saved Cramér's V heatmap to {heatmap_path}")
+    
+
 
 
 # -------------------------------------------------------------------
@@ -395,6 +431,9 @@ def main():
 
     # Stacked bar charts for selected features (PNG)
     save_stacked_charts(train_df)
+    
+    # Feature ranking by poison variance (table)
+    compute_and_save_poison_variance_rank(train_df)
 
     # Cramér's V matrix (table) and heatmap (PNG)
     compute_and_save_cramers_matrix(train_df)

@@ -7,7 +7,7 @@ format:
     html:
       output-file: index.html
 execute:
-  echo: true
+  echo: false
   warning: false
   error: true
   cache: false
@@ -433,7 +433,7 @@ We are trying to classify whether a mushroom is edible (0) or poisonous (1). Goi
 
 A random state of `123` will ensure reproducibility when ran by subsequent users.
 
-```{python}
+<!-- ```{python}
 # Train–test split at the row level
 #   - Keeps all columns together in each split
 #   - Stratify on the target to preserve class balance
@@ -450,20 +450,20 @@ print(
     "\nTest df shape: ", test_df.shape
     )
 
-```
+``` -->
 
-```{python}
+<!-- ```{python}
 # Build X/y for model training and evaluation from splits
 X_train = train_df.drop(columns=["is_poisonous"])
 y_train = train_df["is_poisonous"]
 
 X_test = test_df.drop(columns=["is_poisonous"])
 y_test = test_df["is_poisonous"]
-```
+``` -->
 
 # EDA After Data Splitting 
 
-```{python}
+<!-- ```{python}
 # Sanity check: class balance in the training data
 
 train_target_counts = train_df["is_poisonous"].value_counts()
@@ -474,9 +474,9 @@ print(train_target_counts.rename(index={0: "edible (0)", 1: "poisonous (1)"}))
 
 print("\nTraining set class proportions:")
 print(train_target_prop.rename(index={0: "edible (0)", 1: "poisonous (1)"}).round(3))
-```
+``` -->
 
-```{python}
+<!-- ```{python}
 # Data Validation: check training target distribution roughly matches UCI proportions
 
 expected_dist = {"e": 0.518, "p": 0.482}
@@ -496,7 +496,7 @@ print(
     f"is close to expected ({expected_poisonous:.3f})."
 )
 
-```
+``` -->
 
 ```{python}
 # Feature column names
@@ -508,294 +508,87 @@ feature_cols = X_train.columns
 #| tbl-cap: "Summary of mushroom feature characteristics"
 
 # Key mushroom feature summary
-summary_rows = []
-for col in feature_cols:
-    if not col == 'is_poisonous':
-        vc = X_train[col].value_counts()
-        summary_rows.append({
-            "feature": col,
-            "n_categories": vc.shape[0],
-            "most_frequent_category": vc.index[0],
-            "most_frequent_count": int(vc.iloc[0])
-    })
-
-feature_summary = (
-    pd.DataFrame(summary_rows)
-    .sort_values("n_categories", ascending=False)
-    .reset_index(drop=True)    
-)
-
-feature_summary.index = feature_summary.index + 1
-feature_summary
-
+mushroom_feature_summary = pd.read_csv("../results/mushroom_feature_summary.csv")
+Markdown(mushroom_feature_summary.to_markdown(index = False))
 ```
 
 We summarize all 21 categorical predictors in Table @tbl-feature-summary, which reports the number of levels and the dominant category for each feature. Given that veil_type only has one level, the values are the same for all observations so we drop that column. 
 
-```{python}
-# Drop veil_type from the feature matrices used for modeling. If check added to prevent error if not present_ in case the cell is run multiple times
-if "veil_type" in X_train.columns:
-    X_train = X_train.drop(columns=["veil_type"])
-    X_test = X_test.drop(columns=["veil_type"])
-    
-    # Redefine feature columns
-    feature_cols = X_train.columns
-
-```
-
-```{python}
+<!-- ```{python}
     X_train.to_csv('data/processed/x_train.csv')
     X_test.to_csv('data/processed/x_test.csv')
     y_train.to_csv('data/processed/y_train.csv')
     y_test.to_csv('data/processed/y_test.csv')
-```
+``` -->
 
 `veil_type` was dropped because it contains only a single category for all observations.
 A feature with no variation cannot help the model distinguish edible from poisonous mushrooms, provides no predictive signal, and only adds redundant columns after one-hot encoding. Therefore, it is removed to simplify the feature set and prevent unnecessary model complexity.
 
-```{python}
-def get_poison_rate_by(feature: str) -> pd.DataFrame:
-  """
-  Compute the proportion of poisonous and edible mushrooms for each category
-  of a given feature.
 
-  Parameters
-  ----------
-  feature : str
-      The name of the categorical column in `df` for which the poison rates
-      should be calculated.
+::: {#fig-odor-cat width=80%}
 
-  Returns
-  -------
-  pandas.DataFrame
-      A DataFrame indexed by the feature's categories with two columns:
-      `edible_frac` and `poisonous_frac`, sorted in descending order of
-      `poisonous_frac`.
-  """
-  category_poisonous = pd.crosstab(train_df[feature], train_df['is_poisonous'], normalize='index')
+![](../results/figures/stacked_odor.png)
 
-  # By construction, column 0 = edible, 1 = poisonous
-  category_poisonous.columns = ['edible_frac', 'poisonous_frac']
-  return category_poisonous.sort_values('poisonous_frac', ascending=False)
+Class Proportions (edible vs poisonous) by Odor
+:::
 
-```
 
-```{python}
-# Feature category maps
-odor_map = {
-    "a": "almond",
-    "c": "creosote",
-    "f": "foul",
-    "l": "anise",
-    "m": "musty",
-    "n": "none",
-    "p": "pungent",
-    "s": "spicy",
-    "y": "fishy",
-}
+::: {#fig-gill-size width=80%}
 
-habitat_map = {
-    "g": "grasses",
-    "l": "leaves",
-    "m": "meadows",
-    "p": "paths",
-    "u": "urban",
-    "w": "waste",
-    "d": "woods",
-}
+![](../results/figures/stacked_gill_size.png)
 
-gill_size_map = {
-    "b": "broad",
-    "n": "narrow",
-}
+Class Proportions (edible vs poisonous) by Gill Size
+:::
 
-bruises_map = {
-    "t": "bruises",
-    "f": "no bruises",
-}
 
-population_map = {
-    "a": "abundant",
-    "c": "clustered",
-    "n": "numerous",
-    "s": "scattered",
-    "v": "several",
-    "y": "solitary",
-}
+::: {#fig-habitat width=80%}
 
-ring_type_map = {
-    "c": "cobwebby",
-    "e": "evanescent",
-    "f": "flaring",
-    "l": "large",
-    "n": "none",
-    "p": "pendant",
-    "s": "sheathing",
-    "z": "zone",
-}
+![](../results/figures/stacked_habitat.png)
 
-```
+Class Proportions (edible vs poisonous) by Habitat
+:::
 
-```{python}
-def stacked_poison_chart(
-    feature: str,
-    feature_label: str | None = None,
-    category_labels: dict[str, str] | None = None,
-):
-    """
-    Create a stacked bar chart showing edible vs poisonous fractions
-    for each category of a given feature.
 
-    Parameters
-    ----------
-    feature : str
-        Column name in df (e.g., "odor", "gill_size", "habitat").
-    feature_label : str, optional
-        Pretty label for axes / title. If None, derived from the column name.
-    category_labels : dict[str, str], optional
-        Optional mapping from raw category codes to human-readable labels.
-        For example, for odor: {"a": "almond", "n": "none", ...}.
-        If provided, these labels will be used on the y-axis and in tooltips.
+::: {#fig-bruise width=80%}
 
-    Returns
-    -------
-    alt.Chart
-        Altair chart object with stacked bars.
-    """
-    # Use a nicer label if not provided
-    if feature_label is None:
-        feature_label = feature.replace("_", " ").title()
+![](../results/figures/stacked_bruises.png)
 
-    # Table of edible / poisonous fractions by category
-    ct = get_poison_rate_by(feature).reset_index()
+Class Proportions (edible vs poisonous) by Bruises
+:::
 
-    # If a category label map is provided, add a display column
-    if category_labels is not None:
-        display_col = f"{feature}_label"
-        ct[display_col] = ct[feature].map(category_labels).fillna(ct[feature])
-    else:
-        display_col = feature  # use the raw feature values
 
-    # Long format for stacked bars
-    long_df = ct.melt(
-        id_vars=display_col,
-        value_vars=["edible_frac", "poisonous_frac"],
-        var_name="class",
-        value_name="fraction",
-    )
+::: {#fig-pop-type width=80%}
 
-    # Human-readable class labels for legend
-    long_df["class_label"] = long_df["class"].map(
-        {"edible_frac": "Edible", "poisonous_frac": "Poisonous"}
-    )
+![](../results/figures/stacked_popluation.png)
 
-    # Build stacked bar chart
-    chart = (
-        alt.Chart(long_df)
-        .mark_bar()
-        .encode(
-            y=alt.Y(f"{display_col}:N", title=feature_label, sort="-x"),
-            x=alt.X("fraction:Q", title="Fraction", axis=alt.Axis(format=".2f")),
-            color=alt.Color(
-                "class_label:N",
-                title="Mushroom class",
-                scale=alt.Scale(
-                    domain=["Edible", "Poisonous"],
-                    range=["#17BECF", "#7E1E9C"],
-                ),
-                legend=alt.Legend(title="Mushroom class"),
-            ),
-            tooltip=[
-                alt.Tooltip(f"{display_col}:N", title=feature_label),
-                alt.Tooltip("class_label:N", title="Class"),
-                alt.Tooltip("fraction:Q", title="Fraction", format=".2f"),
-            ],
-        )
-        .properties(
-            width=450,
-        )
-    )
-    return chart
+Class Proportions (edible vs poisonous) by Population Type
+:::
 
-```
-
-```{python}
-#| label: fig-odor-cat
-#| fig-cap: "Class Proportions (edible vs poisonous) by Odor"
-
-# Visualize the edible vs poisonous class proportions for each odor category
-stacked_poison_chart("odor", "Odor Category", odor_map)
-
-```
-
-```{python}
-#| label: fig-gill-size
-#| fig-cap: "Class Proportions (edible vs poisonous) by Gill Size"
-
-# Visualize the edible vs poisonous class proportions for each gill size
-stacked_poison_chart("gill_size", "Gill Size", gill_size_map)
-
-```
-
-```{python}
-#| label: fig-habitat
-#| fig-cap: "Class Proportions (edible vs poisonous) by Habitat"
-
-# Visualize the edible vs poisonous class proportions for each habitat 
-stacked_poison_chart("habitat", "Habitat", habitat_map)
-
-```
-
-```{python}
-#| label: fig-bruise
-#| fig-cap: "Class Proportions (edible vs poisonous) by Bruises"
-
-# Visualize the edible vs poisonous class proportions for each bruise category 
-stacked_poison_chart("bruises", "Bruises", bruises_map)
-
-```
-
-```{python}
-#| label: fig-pop-type
-#| fig-cap: "Class Proportions (edible vs poisonous) by Population Type"
-
-# Visualize the edible vs poisonous class proportions for each population type 
-stacked_poison_chart("population", "Population", population_map)
-
-```
 
 #### Relationship Between Physical Features and Toxicity: An Exploratory Overview
-To explore how individual mushroom characteristics relate to toxicity, we compared the proportion of poisonous and edible mushrooms across several categorical features. Odor showed the strongest separation between classes (Figure @fig-odor-cat), with foul-, creosote-, and pungent-smelling mushrooms being almost exclusively poisonous, whereas almond and anise odors were strongly associated with edibility. Gill size also demonstrated a meaningful distinction (Figure @fig-gill-size), with broad gills far more common among edible mushrooms. Habitat exhibited notable patterns as well (Figure @fig-habitat): mushrooms found in wooded or grassy environments were more frequently poisonous, while those growing in urban or path environments tended to be edible. Bruising was another strong indicator (Figure @fig-bruise), as mushrooms that bruised were overwhelmingly edible, whereas those that did not bruise were frequently poisonous. Lastly, population type revealed clear group-level differences (Figure @fig-pop-type), with solitary or scattered mushrooms more often poisonous, while abundant or clustered populations were more commonly edible. Together, these figures illustrate that several features, odor in particular, provide strong discriminatory signals relevant to the classification task.
+To explore how individual mushroom characteristics relate to toxicity, we compared the proportion of poisonous and edible mushrooms across several categorical features. 
+
+<!-- `{python} odor_strength`  this is throwing an error due to the table import so the table doesn't show in html rendered-->
+
+Odor showed the strongest separation between classes (Figure @fig-odor-cat), with foul-, creosote-, and pungent-smelling mushrooms being almost exclusively poisonous, whereas almond and anise odors were strongly associated with edibility. Gill size also demonstrated a meaningful distinction (Figure @fig-gill-size), with broad gills far more common among edible mushrooms. Habitat exhibited notable patterns as well (Figure @fig-habitat): mushrooms found in wooded or grassy environments were more frequently poisonous, while those growing in urban or path environments tended to be edible. Bruising was another strong indicator (Figure @fig-bruise), as mushrooms that bruised were overwhelmingly edible, whereas those that did not bruise were frequently poisonous. Lastly, population type revealed clear group-level differences (Figure @fig-pop-type), with solitary or scattered mushrooms more often poisonous, while abundant or clustered populations were more commonly edible. Together, these figures illustrate that several features, odor in particular, provide strong discriminatory signals relevant to the classification task.
+
 
 ```{python}
 #| label: tbl-poison-rank
 #| tbl-cap: "Ranking of features by how well they distinguish poisonous mushrooms"
 
-# Compute the variance in poisonous fraction across the categories of each feature
-# Show strongly the feature predicts toxicity
-
-feature_scores = []
-
-for col in feature_cols:
-    ct = get_poison_rate_by(col)
-    score = ct['poisonous_frac'].var()
-    feature_scores.append({'feature': col, 'poison_variance': round(score, 2)})
-
-feature_importance_eda = pd.DataFrame(feature_scores).sort_values(
-    'poison_variance', ascending=False
-).reset_index(drop=True)
-
-feature_importance_eda.index = feature_importance_eda.index + 1
-feature_importance_eda
+poison_rank = pd.read_csv("../results/tables/feature_poison_variance_rank.csv")
+# odor_strength = poison_rank["feature"].iloc[0]
+Markdown(poison_rank.to_markdown(index = False))
 
 ```
 
-```{python}
+<!-- ```{python}
     X_train.to_csv('../data/processed/x_train.csv')
     X_test.to_csv('../data/processed/x_test.csv')
     y_train.to_csv('../data/processed/y_train.csv')
     y_test.to_csv('../data/processed/y_test.csv')
-```
+``` -->
 
 A ranking of features by their discriminatory power is shown in Table @tbl-poison-rank, using the variance in poisonous fraction across categories as an association measure.
 
@@ -806,57 +599,8 @@ A ranking of features by their discriminatory power is shown in Table @tbl-poiso
 #| label: fig-corr-heatmap
 #| fig-cap: "Correlation heatmap (Cramér's V) for all feature and feature-target pairs in the training data."
 
-# create list of all pairwise feature and feature-target combinations 
-train_df_cols = list(train_df.columns)
-pairs = list(itertools.combinations(train_df_cols, 2))
-
-# compute correlation for all feature pairs and feature-target pairs 
-
-def cramers_v(df, feature1, feature2):
-    """ manually computes correlation for feature pairs from the pearsons chi-squared test statistic using cramers v formula"""
-
-    table = pd.crosstab(df[feature1], df[feature2])
-
-    #get chi squared test statistc
-    chi2, _, _, _ = chi2_contingency(table)
-
-    #normalize chi-squared test statistic 
-    n = table.sum().sum()
-    phi2 = chi2 / n
-    r, k = table.shape
-
-    # compute cramers v
-    return np.sqrt(phi2 / min(k-1, r-1))
-
-# create empty df with diagonal equal to 1
-cramers_matrix = pd.DataFrame(np.eye(len(train_df_cols)), columns=train_df_cols, index=train_df_cols) 
-
-for feature1, feature2 in pairs:
-    v = cramers_v(train_df, feature1, feature2)
-    cramers_matrix.loc[feature1, feature2] = v
-    cramers_matrix.loc[feature2, feature1] = v
-
-# convert matrix to long format for Altair visualization
-cramers_long = cramers_matrix.reset_index().melt(id_vars='index')
-cramers_long.columns = ['feature_1', 'feature_2', 'cramers_v']
-
-correlation_heatmap = alt.Chart(cramers_long).mark_rect().encode(
-    x=alt.X('feature_1:N', 
-        sort=feature_cols,
-        title='Feature 1'),
-    y=alt.Y('feature_2:N',
-         sort=feature_cols,
-         title="Feature 2"),
-    color=alt.Color('cramers_v:Q', 
-        scale=alt.Scale(domain=[0,1], scheme='purpleorange'),
-        title="Cramer's V"
-        )
-    ).properties(
-        width=300,
-        height=300
-       )
-
-correlation_heatmap
+cramers_v_matrix = pd.read_csv("../results/tables/cramers_v_matrix.csv")
+Markdown(cramers_v_matrix.to_markdown(index = False))
 ```
 
 ## Summary of Anomalous Correlation Between Features:
