@@ -438,33 +438,6 @@ We are trying to classify whether a mushroom is edible (0) or poisonous (1). Goi
 
 A random state of `123` will ensure reproducibility when ran by subsequent users.
 
-<!-- ```{python}
-# Train–test split at the row level
-#   - Keeps all columns together in each split
-#   - Stratify on the target to preserve class balance
-
-train_df, test_df = train_test_split(
-    df,
-    test_size=0.3,
-    random_state=123,
-    stratify=df["is_poisonous"],
-)
-
-print(
-    "Train df shape: ", train_df.shape,
-    "\nTest df shape: ", test_df.shape
-    )
-
-``` -->
-
-<!-- ```{python}
-# Build X/y for model training and evaluation from splits
-X_train = train_df.drop(columns=["is_poisonous"])
-y_train = train_df["is_poisonous"]
-
-X_test = test_df.drop(columns=["is_poisonous"])
-y_test = test_df["is_poisonous"]
-``` -->
 
 # EDA After Data Splitting 
 
@@ -504,16 +477,12 @@ print(
 ``` -->
 
 ```{python}
-# Feature column names
-feature_cols = X_train.columns
-```
-
-```{python}
 #| label: tbl-feature-summary
 #| tbl-cap: "Summary of mushroom feature characteristics"
 
 # Key mushroom feature summary
-mushroom_feature_summary = pd.read_csv("../results/mushroom_feature_summary.csv")
+mushroom_feature_summary = pd.read_csv("../results/tables/feature_summary.csv")
+odor_strength = mushroom_feature_summary["feature"].iloc[2]
 Markdown(mushroom_feature_summary.to_markdown(index = False))
 ```
 
@@ -571,7 +540,7 @@ Class Proportions (edible vs poisonous) by Population Type
 
 
 #### Relationship Between Physical Features and Toxicity: An Exploratory Overview
-To explore how individual mushroom characteristics relate to toxicity, we compared the proportion of poisonous and edible mushrooms across several categorical features. `python {{ odor_strength }}` showed the strongest separation between classes (Figure @fig-odor-cat), with foul-, creosote-, and pungent-smelling mushrooms being almost exclusively poisonous, whereas almond and anise odors were strongly associated with edibility. Gill size also demonstrated a meaningful distinction (Figure @fig-gill-size), with broad gills far more common among edible mushrooms. Habitat exhibited notable patterns as well (Figure @fig-habitat): mushrooms found in wooded or grassy environments were more frequently poisonous, while those growing in urban or path environments tended to be edible. Bruising was another strong indicator (Figure @fig-bruise), as mushrooms that bruised were overwhelmingly edible, whereas those that did not bruise were frequently poisonous. Lastly, population type revealed clear group-level differences (Figure @fig-pop-type), with solitary or scattered mushrooms more often poisonous, while abundant or clustered populations were more commonly edible. Together, these figures illustrate that several features, odor in particular, provide strong discriminatory signals relevant to the classification task.
+To explore how individual mushroom characteristics relate to toxicity, we compared the proportion of poisonous and edible mushrooms across several categorical features. `{python} odor_strength` showed the strongest separation between classes (@fig-odor-cat), with foul-, creosote-, and pungent-smelling mushrooms being almost exclusively poisonous, whereas almond and anise odors were strongly associated with edibility. Gill size also demonstrated a meaningful distinction (@fig-gill-size), with broad gills far more common among edible mushrooms. Habitat exhibited notable patterns as well (@fig-habitat): mushrooms found in wooded or grassy environments were more frequently poisonous, while those growing in urban or path environments tended to be edible. Bruising was another strong indicator (@fig-bruise), as mushrooms that bruised were overwhelmingly edible, whereas those that did not bruise were frequently poisonous. Lastly, population type revealed clear group-level differences (@fig-pop-type), with solitary or scattered mushrooms more often poisonous, while abundant or clustered populations were more commonly edible. Together, these figures illustrate that several features, odor in particular, provide strong discriminatory signals relevant to the classification task.
 
 
 ```{python}
@@ -579,7 +548,6 @@ To explore how individual mushroom characteristics relate to toxicity, we compar
 #| tbl-cap: "Ranking of features by how well they distinguish poisonous mushrooms"
 
 poison_rank = pd.read_csv("../results/tables/feature_poison_variance_rank.csv")
-odor_strength = poison_rank["feature"].iloc[0]
 Markdown(poison_rank.to_markdown(index = False))
 
 ```

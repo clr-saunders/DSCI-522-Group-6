@@ -164,7 +164,7 @@ div.csl-indent {
 Table&nbsp;1: First five rows of the raw dataset.
 </figcaption>
 <div aria-describedby="tbl-sample-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="56">
+<div class="cell-output cell-output-display" data-execution_count="102">
 <div>
 
 
@@ -329,13 +329,13 @@ Table&nbsp;1: First five rows of the raw dataset.
 <p>A preview of the first five rows of the raw dataset is shown in <a href="#tbl-sample-data" class="quarto-xref">Table&nbsp;1</a>, which illustrates the categorical structure of all features prior to cleaning.</p>
 <section id="data-validation-checks-1" class="level2">
 <h2 class="anchored" data-anchor-id="data-validation-checks-1">Data Validation Checks</h2>
-<div id="eb3e22b5" class="cell" data-execution_count="7">
+<div id="e9cf9460" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>[OK] Target distribution matches expected proportions (within tolerance).</code></pre>
 </div>
 </div>
-<div id="baedab6b" class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display" data-execution_count="60">
+<div id="9705edca" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="106">
 <pre><code>class                       0
 cap_shape                   0
 cap_surface                 0
@@ -362,8 +362,8 @@ habitat                     0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="0d60433e" class="cell" data-execution_count="10">
-<div class="cell-output cell-output-display" data-execution_count="61">
+<div id="1d2867a9" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="107">
 <pre><code>class                          0
 cap_shape                      0
 cap_surface                    0
@@ -390,8 +390,8 @@ habitat                        0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="6f59bbd6" class="cell" data-execution_count="15">
-<div class="cell-output cell-output-display" data-execution_count="66">
+<div id="dd341a42" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="112">
 <pre><code>cap_shape                   0
 cap_surface                 0
 cap_color                   0
@@ -417,12 +417,12 @@ is_poisonous                0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="439a0274" class="cell" data-execution_count="16">
+<div id="edaa0909" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-stdout">
 <pre><code>[OK] Cleaned column names validated.</code></pre>
 </div>
 </div>
-<div id="25fb1f05" class="cell" data-execution_count="17">
+<div id="a5ea3beb" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-stdout">
 <pre><code>[OK] Pandera schema validation passed:
    - all feature columns are string-typed
@@ -445,7 +445,7 @@ dtype: int64</code></pre>
 Table&nbsp;2: First five rows of the cleaned dataset.
 </figcaption>
 <div aria-describedby="tbl-sample-cleaned-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="70">
+<div class="cell-output cell-output-display" data-execution_count="116">
 <div>
 
 
@@ -607,7 +607,7 @@ Table&nbsp;2: First five rows of the cleaned dataset.
 </figure>
 </div>
 </div>
-<div id="9bcd4531" class="cell" data-execution_count="20">
+<div id="9eefd35d" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 RangeIndex: 8124 entries, 0 to 8123
@@ -640,8 +640,8 @@ dtypes: int64(1), object(21)
 memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
-<div id="5dab0b23" class="cell" data-execution_count="21">
-<div class="cell-output cell-output-display" data-execution_count="72">
+<div id="352b93f9" class="cell" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="118">
 <pre><code>(8124, 22)</code></pre>
 </div>
 </div>
@@ -650,32 +650,6 @@ memory usage: 1.4+ MB</code></pre>
 <h1>Data Splitting</h1>
 <p>We are trying to classify whether a mushroom is edible (0) or poisonous (1). Going to do a 70/30 train/test split due to the large and roughly equal proportions of edible and poisonous mushrooms.</p>
 <p>A random state of <code>123</code> will ensure reproducibility when ran by subsequent users.</p>
-<!-- ```{python}
-# Train–test split at the row level
-#   - Keeps all columns together in each split
-#   - Stratify on the target to preserve class balance
-
-train_df, test_df = train_test_split(
-    df,
-    test_size=0.3,
-    random_state=123,
-    stratify=df["is_poisonous"],
-)
-
-print(
-    "Train df shape: ", train_df.shape,
-    "\nTest df shape: ", test_df.shape
-    )
-
-``` -->
-<!-- ```{python}
-# Build X/y for model training and evaluation from splits
-X_train = train_df.drop(columns=["is_poisonous"])
-y_train = train_df["is_poisonous"]
-
-X_test = test_df.drop(columns=["is_poisonous"])
-y_test = test_df["is_poisonous"]
-``` -->
 </section>
 <section id="eda-after-data-splitting" class="level1">
 <h1>EDA After Data Splitting</h1>
@@ -712,93 +686,178 @@ print(
 )
 
 ``` -->
-<div id="6b21d6d3" class="cell" data-execution_count="22">
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[73]</span><span class="ansi-green-fg">, line 2</span>
-<span class="ansi-green-fg">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Feature column names</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> feature_cols = <span class="ansi-yellow-bg">X_train</span>.columns
-
-<span class="ansi-red-fg">NameError</span>: name 'X_train' is not defined</pre>
-</div>
-</div>
-</div>
-<div id="tbl-feature-summary" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="23">
+<div class="cell" data-execution_count="22">
+<div id="tbl-feature-summary" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="22">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-feature-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3: Summary of mushroom feature characteristics
 </figcaption>
 <div aria-describedby="tbl-feature-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[74]</span><span class="ansi-green-fg">, line 2</span>
-<span class="ansi-green-fg">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Key mushroom feature summary</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> mushroom_feature_summary = <span class="ansi-yellow-bg">pd</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">read_csv</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">../results/mushroom_feature_summary.csv</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">      3</span> Markdown(mushroom_feature_summary.to_markdown(index = <span style="font-weight:bold;color:rgb(0,135,0)">False</span>))
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\miniforge3\envs\mds\Lib\site-packages\pandas\io\parsers\readers.py:1026</span>, in <span class="ansi-cyan-fg">read_csv</span><span class="ansi-blue-fg">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
-<span class="ansi-green-fg">   1013</span> kwds_defaults = _refine_defaults_read(
-<span class="ansi-green-fg">   1014</span>     dialect,
-<span class="ansi-green-fg">   1015</span>     delimiter,
-<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">   1022</span>     dtype_backend=dtype_backend,
-<span class="ansi-green-fg">   1023</span> )
-<span class="ansi-green-fg">   1024</span> kwds.update(kwds_defaults)
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">1026</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">_read</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filepath_or_buffer</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">kwds</span><span class="ansi-yellow-bg">)</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\miniforge3\envs\mds\Lib\site-packages\pandas\io\parsers\readers.py:620</span>, in <span class="ansi-cyan-fg">_read</span><span class="ansi-blue-fg">(filepath_or_buffer, kwds)</span>
-<span class="ansi-green-fg">    617</span> _validate_names(kwds.get(<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">names</span><span class="ansi-yellow-fg">"</span>, <span style="font-weight:bold;color:rgb(0,135,0)">None</span>))
-<span class="ansi-green-fg">    619</span> <span style="font-style:italic;color:rgb(95,135,135)"># Create the parser.</span>
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">620</span> parser = <span class="ansi-yellow-bg">TextFileReader</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filepath_or_buffer</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwds</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    622</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> chunksize <span style="font-weight:bold;color:rgb(175,0,255)">or</span> iterator:
-<span class="ansi-green-fg">    623</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> parser
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\miniforge3\envs\mds\Lib\site-packages\pandas\io\parsers\readers.py:1620</span>, in <span class="ansi-cyan-fg">TextFileReader.__init__</span><span class="ansi-blue-fg">(self, f, engine, **kwds)</span>
-<span class="ansi-green-fg">   1617</span>     <span style="color:rgb(0,135,0)">self</span>.options[<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">has_index_names</span><span class="ansi-yellow-fg">"</span>] = kwds[<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">has_index_names</span><span class="ansi-yellow-fg">"</span>]
-<span class="ansi-green-fg">   1619</span> <span style="color:rgb(0,135,0)">self</span>.handles: IOHandles | <span style="font-weight:bold;color:rgb(0,135,0)">None</span> = <span style="font-weight:bold;color:rgb(0,135,0)">None</span>
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">1620</span> <span style="color:rgb(0,135,0)">self</span>._engine = <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_make_engine</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">f</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">engine</span><span class="ansi-yellow-bg">)</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\miniforge3\envs\mds\Lib\site-packages\pandas\io\parsers\readers.py:1880</span>, in <span class="ansi-cyan-fg">TextFileReader._make_engine</span><span class="ansi-blue-fg">(self, f, engine)</span>
-<span class="ansi-green-fg">   1878</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">b</span><span class="ansi-yellow-fg">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> mode:
-<span class="ansi-green-fg">   1879</span>         mode += <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">b</span><span class="ansi-yellow-fg">"</span>
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">1880</span> <span style="color:rgb(0,135,0)">self</span>.handles = <span class="ansi-yellow-bg">get_handle</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">   1881</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">f</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   1882</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">mode</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   1883</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">encoding</span><span class="ansi-yellow-bg">=</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">encoding</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">None</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   1884</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">compression</span><span class="ansi-yellow-bg">=</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">compression</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">None</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   1885</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">memory_map</span><span class="ansi-yellow-bg">=</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">memory_map</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">False</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   1886</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">is_text</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">is_text</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   1887</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">=</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">encoding_errors</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">strict</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   1888</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">storage_options</span><span class="ansi-yellow-bg">=</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">storage_options</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">None</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   1889</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">   1890</span> <span style="font-weight:bold;color:rgb(0,135,0)">assert</span> <span style="color:rgb(0,135,0)">self</span>.handles <span style="font-weight:bold;color:rgb(175,0,255)">is</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="font-weight:bold;color:rgb(0,135,0)">None</span>
-<span class="ansi-green-fg">   1891</span> f = <span style="color:rgb(0,135,0)">self</span>.handles.handle
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\miniforge3\envs\mds\Lib\site-packages\pandas\io\common.py:873</span>, in <span class="ansi-cyan-fg">get_handle</span><span class="ansi-blue-fg">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
-<span class="ansi-green-fg">    868</span> <span style="font-weight:bold;color:rgb(0,135,0)">elif</span> <span style="color:rgb(0,135,0)">isinstance</span>(handle, <span style="color:rgb(0,135,0)">str</span>):
-<span class="ansi-green-fg">    869</span>     <span style="font-style:italic;color:rgb(95,135,135)"># Check whether the filename is to be opened in binary mode.</span>
-<span class="ansi-green-fg">    870</span>     <span style="font-style:italic;color:rgb(95,135,135)"># Binary mode does not support 'encoding' and 'newline'.</span>
-<span class="ansi-green-fg">    871</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> ioargs.encoding <span style="font-weight:bold;color:rgb(175,0,255)">and</span> <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">b</span><span class="ansi-yellow-fg">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> ioargs.mode:
-<span class="ansi-green-fg">    872</span>         <span style="font-style:italic;color:rgb(95,135,135)"># Encoding</span>
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">873</span>         handle = <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    874</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">handle</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    875</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">ioargs</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">mode</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    876</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">encoding</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">ioargs</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">encoding</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    877</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    878</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">newline</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    879</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    880</span>     <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
-<span class="ansi-green-fg">    881</span>         <span style="font-style:italic;color:rgb(95,135,135)"># Binary mode</span>
-<span class="ansi-green-fg">    882</span>         handle = <span style="color:rgb(0,135,0)">open</span>(handle, ioargs.mode)
-
-<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: '../results/mushroom_feature_summary.csv'</pre>
-</div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="119">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 24%">
+<col style="width: 15%">
+<col style="width: 24%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Unnamed: 0</th>
+<th style="text-align: left;">feature</th>
+<th style="text-align: right;">n_categories</th>
+<th style="text-align: left;">most_frequent_category</th>
+<th style="text-align: right;">most_frequent_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">gill_color</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">b</td>
+<td style="text-align: right;">1202</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">cap_color</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">n</td>
+<td style="text-align: right;">1567</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">odor</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">n</td>
+<td style="text-align: right;">2439</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">stalk_color_below_ring</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">w</td>
+<td style="text-align: right;">3071</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">spore_print_color</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">w</td>
+<td style="text-align: right;">1655</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">stalk_color_above_ring</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">w</td>
+<td style="text-align: right;">3131</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">habitat</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">d</td>
+<td style="text-align: right;">2195</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">cap_shape</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">x</td>
+<td style="text-align: right;">2534</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">v</td>
+<td style="text-align: right;">2813</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">ring_type</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2778</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">stalk_surface_below_ring</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">s</td>
+<td style="text-align: right;">3434</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">cap_surface</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">y</td>
+<td style="text-align: right;">2291</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">veil_color</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">w</td>
+<td style="text-align: right;">5542</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">stalk_surface_above_ring</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">s</td>
+<td style="text-align: right;">3630</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">ring_number</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">o</td>
+<td style="text-align: right;">5246</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">bruises</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">f</td>
+<td style="text-align: right;">3330</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">stalk_shape</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">t</td>
+<td style="text-align: right;">3211</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">gill_attachment</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">f</td>
+<td style="text-align: right;">5534</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">gill_spacing</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">c</td>
+<td style="text-align: right;">4766</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">gill_size</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">b</td>
+<td style="text-align: right;">3939</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </figure>
+</div>
 </div>
 <p>We summarize all 21 categorical predictors in <a href="#tbl-feature-summary" class="quarto-xref">Table&nbsp;3</a>, which reports the number of levels and the dominant category for each feature. Given that veil_type only has one level, the values are the same for all observations so we drop that column.</p>
 <!-- ```{python}
@@ -860,15 +919,15 @@ Figure&nbsp;5: Class Proportions (edible vs poisonous) by Population Type
 </div>
 <section id="relationship-between-physical-features-and-toxicity-an-exploratory-overview" class="level4">
 <h4 class="anchored" data-anchor-id="relationship-between-physical-features-and-toxicity-an-exploratory-overview">Relationship Between Physical Features and Toxicity: An Exploratory Overview</h4>
-<p>To explore how individual mushroom characteristics relate to toxicity, we compared the proportion of poisonous and edible mushrooms across several categorical features. <code>python {{ odor_strength }}</code> showed the strongest separation between classes (Figure <a href="#fig-odor-cat" class="quarto-xref">Figure&nbsp;1</a>), with foul-, creosote-, and pungent-smelling mushrooms being almost exclusively poisonous, whereas almond and anise odors were strongly associated with edibility. Gill size also demonstrated a meaningful distinction (Figure <a href="#fig-gill-size" class="quarto-xref">Figure&nbsp;2</a>), with broad gills far more common among edible mushrooms. Habitat exhibited notable patterns as well (Figure <a href="#fig-habitat" class="quarto-xref">Figure&nbsp;3</a>): mushrooms found in wooded or grassy environments were more frequently poisonous, while those growing in urban or path environments tended to be edible. Bruising was another strong indicator (Figure <a href="#fig-bruise" class="quarto-xref">Figure&nbsp;4</a>), as mushrooms that bruised were overwhelmingly edible, whereas those that did not bruise were frequently poisonous. Lastly, population type revealed clear group-level differences (Figure <a href="#fig-pop-type" class="quarto-xref">Figure&nbsp;5</a>), with solitary or scattered mushrooms more often poisonous, while abundant or clustered populations were more commonly edible. Together, these figures illustrate that several features, odor in particular, provide strong discriminatory signals relevant to the classification task.</p>
-<div class="cell" data-execution_count="24">
-<div id="tbl-poison-rank" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="24">
+<p>To explore how individual mushroom characteristics relate to toxicity, we compared the proportion of poisonous and edible mushrooms across several categorical features. odor showed the strongest separation between classes (<a href="#fig-odor-cat" class="quarto-xref">Figure&nbsp;1</a>), with foul-, creosote-, and pungent-smelling mushrooms being almost exclusively poisonous, whereas almond and anise odors were strongly associated with edibility. Gill size also demonstrated a meaningful distinction (<a href="#fig-gill-size" class="quarto-xref">Figure&nbsp;2</a>), with broad gills far more common among edible mushrooms. Habitat exhibited notable patterns as well (<a href="#fig-habitat" class="quarto-xref">Figure&nbsp;3</a>): mushrooms found in wooded or grassy environments were more frequently poisonous, while those growing in urban or path environments tended to be edible. Bruising was another strong indicator (<a href="#fig-bruise" class="quarto-xref">Figure&nbsp;4</a>), as mushrooms that bruised were overwhelmingly edible, whereas those that did not bruise were frequently poisonous. Lastly, population type revealed clear group-level differences (<a href="#fig-pop-type" class="quarto-xref">Figure&nbsp;5</a>), with solitary or scattered mushrooms more often poisonous, while abundant or clustered populations were more commonly edible. Together, these figures illustrate that several features, odor in particular, provide strong discriminatory signals relevant to the classification task.</p>
+<div class="cell" data-execution_count="23">
+<div id="tbl-poison-rank" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="23">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-poison-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4: Ranking of features by how well they distinguish poisonous mushrooms
 </figcaption>
 <div aria-describedby="tbl-poison-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="75">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="120">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -1019,7 +1078,7 @@ Figure&nbsp;6: Correlation heatmap (Cramer’s V) for all feature and feature-ta
 <h1>Model</h1>
 <p>Before we continue, we must preprocess our data such that the features work with our models. Since all of our features are strings, we can opt to use one-hot encoding for them all.</p>
 <p>We fit a <code>DummyClassifier</code> to our data as a baseline to compare our actual model with. Random state used again for reproducibility.</p>
-<div id="tbl-cross-val-dc" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="26">
+<div id="tbl-cross-val-dc" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="25">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cross-val-dc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;5: Mean 10-Fold Cross-Validation Metrics for DummyClassifier Baseline
@@ -1029,7 +1088,7 @@ Table&nbsp;5: Mean 10-Fold Cross-Validation Metrics for DummyClassifier Baseline
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[77]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[122]</span><span class="ansi-green-fg">, line 6</span>
 <span class="ansi-green-fg">      1</span> dc_pipe = make_pipeline(
 <span class="ansi-green-fg">      2</span>     preprocessor, 
 <span class="ansi-green-fg">      3</span>     DummyClassifier(random_state=<span class="ansi-green-fg">123</span>)
@@ -1048,7 +1107,7 @@ Table&nbsp;5: Mean 10-Fold Cross-Validation Metrics for DummyClassifier Baseline
 </figure>
 </div>
 <p>In our classification problem, we opt to use <code>SVC</code> <span class="citation" data-cites="svc">(<a href="#ref-svc" role="doc-biblioref">Buitinck et al. 2013</a>)</span> as our model of choice for its effective usage in this scenario. We do not have an extreme amount of data (&lt; 10000 observations) on top of only being a binary classification task.</p>
-<div id="tbl-cross-val-svc" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="27">
+<div id="tbl-cross-val-svc" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="26">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cross-val-svc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;6: Mean 10-Fold Cross-Validation Metrics for SVC Model
@@ -1058,7 +1117,7 @@ Table&nbsp;6: Mean 10-Fold Cross-Validation Metrics for SVC Model
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[78]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[123]</span><span class="ansi-green-fg">, line 6</span>
 <span class="ansi-green-fg">      1</span> svc_pipe = make_pipeline(
 <span class="ansi-green-fg">      2</span>     preprocessor, 
 <span class="ansi-green-fg">      3</span>     SVC(random_state=<span class="ansi-green-fg">123</span>)
@@ -1076,14 +1135,14 @@ Table&nbsp;6: Mean 10-Fold Cross-Validation Metrics for SVC Model
 </div>
 </figure>
 </div>
-<div id="fig-confusion-matrix-svc" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="28">
+<div id="fig-confusion-matrix-svc" class="cell quarto-float quarto-figure quarto-figure-left anchored" data-execution_count="27">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-confusion-matrix-svc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[79]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[124]</span><span class="ansi-green-fg">, line 1</span>
 <span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> y_pred = svc_pipe.predict(<span class="ansi-yellow-bg">X_test</span>)
 <span class="ansi-green-fg">      3</span> cm = confusion_matrix(y_test, y_pred)
 <span class="ansi-green-fg">      4</span> ConfusionMatrixDisplay(cm).plot()
