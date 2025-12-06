@@ -408,7 +408,7 @@ df = mushroom_schema.validate(df, lazy=True)
 
 ```
 
-# EDA Before Data Splitting 
+# Basic EDA
 
 ```{python}
 #| label: tbl-sample-cleaned
