@@ -70,7 +70,7 @@ If made accessible to the public in North America, accurate prediction of mushro
 
 ## Data
 
-The data set used in this project includes hypothetical mushroom samples drawn from The Audubon Society Field Guide to North American Mushrooms by Gary Lincoff (1981, 500-525). 
+The data set used in this project includes hypothetical mushroom samples drawn from The Audubon Society Field Guide to North American Mushrooms by Gary Lincoff [@lincoff1981]. 
 It was sourced from the UCI Machine Learning Repository [@uci_mushroom], specifically the file *agarius-lepiota.data*. 
 It includes 8124 descriptions of hypothetical mushroom samples that correspond to 23 species of mushrooms in the Agaricus and Lepiota Family [@lincoff1981]. 
 Each row includes 22 categorical variables that are physical characteristics of the mushroom sample, including the odor, gill-spacing, gill-color, gill-size, population, habitat, etc, and is labelled as edible or poisonous. 
@@ -99,6 +99,7 @@ with zipfile.ZipFile("../data/raw/mushroom.zip", 'r') as zip_ref:
 ## Data Validation Checks
 
 ```{python}
+#| include: false
 '''Correct Data File Format Check'''
 data_path = "../data/raw/agaricus-lepiota.data"
 correct_exts = {".csv",".data"}
@@ -113,6 +114,7 @@ assert ext in correct_exts, (
 
 # Data cleaning and wrangling
 ```{python}
+#| include: false
 # Expected data column names
 dataset_col_names = [
     "class", "cap_shape", "cap_surface", "cap_color", "bruises", "odor",
@@ -127,6 +129,7 @@ dataset_col_names = [
 ```
 
 ```{python}
+#| include: false
 #| label: tbl-sample-data
 #| tbl-cap: "First five rows of the raw dataset."
 
@@ -139,6 +142,7 @@ A preview of the first five rows of the raw dataset is shown in Table @tbl-sampl
 ## Data Validation Checks
 
 ```{python}
+#| include: false
 '''No Duplicate Observations Check'''
 
 duplicates = df.duplicated().sum()
@@ -148,7 +152,7 @@ assert duplicates == 0, (
 ```
 
 ```{python}
-
+#| include: false
 '''Target follows expected distribution'''
 actual_distribution = (
     df["class"]
@@ -176,6 +180,7 @@ print(
 
 
 ```{python}
+#| include: false
 '''Correct category levels check (i.e., no string mismatches or single values)'''
 
 
@@ -268,6 +273,7 @@ for col, allowed in allowed_values.items():
 
 
 ```{python}
+#| include: false
 # Basic missingness summary (raw data)
 df.isna().sum()
 
@@ -275,11 +281,13 @@ df.isna().sum()
 
 
 ```{python}
+#| include: false
 # Encoded missingness via '?':
 (df == "?").sum()
 ```
 
 ```{python}
+#| include: false
 # Convert "?" markers to proper NaN in case any other should occur apart from the known `stalk_root`_ just thinking real-world applications
 
 df = df.replace("?", np.nan)
@@ -287,30 +295,35 @@ df = df.replace("?", np.nan)
 ```
 
 ```{python}
+#| include: false
 # Changing the target to numeric values: poisonous=1, edible=0
 
 df["is_poisonous"] = df["class"].map({"p": 1, "e": 0})
 ```
 
 ```{python}
+#| include: false
 # Drop rows with NaN in the target column (none expected, but safe)
 
 df = df.dropna(subset=["is_poisonous"])
 ```
 
 ```{python}
+#| include: false
 # Drop stalk_root column due to missing values and original target column "class" because numeric column of target values "is_poisonous" added to replace it
 df.drop(columns=['stalk_root', 'class'], inplace=True)
 
 ```
 
 ```{python}
+#| include: false
 # Check remaining missing values
 df.isna().sum()
 
 ```
 
 ```{python}
+#| include: false
 # Validate cleaned column names
 # Given that the dataset we read in for this model did not include headers, we assigned the names and hence encoded the correct column names initially upon read in. Here, I confirm the column names match expectations after dropping "stalk_root" and changing the name of "class" to "is_poisonous"
 expected_cols_cleaned = [
@@ -324,6 +337,7 @@ print("[OK] Cleaned column names validated.")
 ```
 
 ```{python}
+#| include: false
 # Pandera: validate cleaned dataframe schema
 #   - All feature columns are strings
 #   - Target column is integer and only takes values {0, 1}
@@ -364,6 +378,7 @@ We addressed this by validating every categorical column against the official li
 Since all observed category values matched their expected sets, we conclude that no anomalous values are present in this dataset.
 
 ```{python}
+#| include: false
 # Pandera: validate cleaned dataframe schema    
 # - Ensure there are no completely empty rows
 # - all columns must be present
@@ -427,6 +442,7 @@ df = mushroom_schema.validate(df, lazy=True)
 # EDA Before Data Splitting 
 
 ```{python}
+#| include: false
 #| label: tbl-sample-cleaned
 #| tbl-cap: "First five rows of the cleaned dataset."
 df.head()
@@ -452,6 +468,7 @@ We are trying to classify whether a mushroom is edible (0) or poisonous (1). Goi
 A random state of `123` will ensure reproducibility when ran by subsequent users.
 
 ```{python}
+#| include: false
 # Train–test split at the row level
 #   - Keeps all columns together in each split
 #   - Stratify on the target to preserve class balance
@@ -471,6 +488,7 @@ print(
 ```
 
 ```{python}
+#| include: false
 # Build X/y for model training and evaluation from splits
 X_train = train_df.drop(columns=["is_poisonous"])
 y_train = train_df["is_poisonous"]
@@ -482,6 +500,7 @@ y_test = test_df["is_poisonous"]
 # EDA After Data Splitting 
 
 ```{python}
+#| include: false
 # Sanity check: class balance in the training data
 
 train_target_counts = train_df["is_poisonous"].value_counts()
@@ -495,6 +514,7 @@ print(train_target_prop.rename(index={0: "edible (0)", 1: "poisonous (1)"}).roun
 ```
 
 ```{python}
+#| include: false
 # Data Validation: check training target distribution roughly matches UCI proportions
 
 expected_dist = {"e": 0.518, "p": 0.482}
@@ -517,11 +537,13 @@ print(
 ```
 
 ```{python}
+#| include: false
 # Feature column names
 feature_cols = X_train.columns
 ```
 
 ```{python}
+#| include: false
 #| label: tbl-feature-summary
 #| tbl-cap: "Summary of mushroom feature characteristics"
 
@@ -551,6 +573,7 @@ feature_summary
 We summarize all 21 categorical predictors in Table @tbl-feature-summary, which reports the number of levels and the dominant category for each feature. Given that veil_type only has one level, the values are the same for all observations so we drop that column. 
 
 ```{python}
+#| include: false
 # Drop veil_type from the feature matrices used for modeling. If check added to prevent error if not present_ in case the cell is run multiple times
 if "veil_type" in X_train.columns:
     X_train = X_train.drop(columns=["veil_type"])
@@ -573,6 +596,7 @@ y_test.to_csv('data/processed/y_test.csv')
 A feature with no variation cannot help the model distinguish edible from poisonous mushrooms, provides no predictive signal, and only adds redundant columns after one-hot encoding. Therefore, it is removed to simplify the feature set and prevent unnecessary model complexity.
 
 ```{python}
+#| include: false
 def get_poison_rate_by(feature: str) -> pd.DataFrame:
   """
   Compute the proportion of poisonous and edible mushrooms for each category
@@ -600,6 +624,7 @@ def get_poison_rate_by(feature: str) -> pd.DataFrame:
 ```
 
 ```{python}
+#| include: false
 # Feature category maps
 odor_map = {
     "a": "almond",
@@ -656,6 +681,7 @@ ring_type_map = {
 ```
 
 ```{python}
+#| include: false
 def stacked_poison_chart(
     feature: str,
     feature_label: str | None = None,
@@ -780,7 +806,7 @@ stacked_poison_chart("habitat", "Habitat", habitat_map)
 ```{python}
 #| label: fig-bruise
 #| fig-cap: "Class Proportions (edible vs poisonous) by Bruises"
-##| fig-width: 6
+#| fig-width: 6
 #| fig-height: 4
 #| out-width: 60%
 #| fig-align: center
@@ -910,6 +936,7 @@ correlation_heatmap
 Before we continue, we must preprocess our data such that the features work with our models. Since all of our features are strings, we can opt to use one-hot encoding for them all. 
 
 ```{python}
+#| include: false
 # Proprocessor
 preprocessor = OneHotEncoder(handle_unknown="ignore")
 
@@ -995,6 +1022,6 @@ The model also shows robustness, with no difference in the accuracy of training 
 
 Hence, if an amateur mushroom enthusiast aimed to utilize the model to predict edibility but misidentified the physical characeristics of the mushroom they were attempting to classify, then the accuracy of the models predictions would be effectively moot as it would not be returning a prediction for the true foraged mushroom.
 One might consider creating a similar predictor with a smaller number of features to increase the practical efficacy of the model, though they would need to consider balancing the models accuracy with efficacy, because the risk of falsely predicting a mushroom as edible could be fatal. 
-It is also worth noting that the hypothetical mushroom observations in this model are based upon a book from 1981 (Lincoff), so it would be wise to consider whether the data could be updated to be sourced from a more recent source of mushroom science. 
+It is also worth noting that the hypothetical mushroom observations in this model are based upon a book from [@lincoff1981], so it would be wise to consider whether the data could be updated to be sourced from a more recent source of mushroom science. 
 
 
