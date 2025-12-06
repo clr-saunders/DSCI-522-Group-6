@@ -421,17 +421,6 @@ df = mushroom_schema.validate(df, lazy=True)
 df.head()
 ```
 
-```{python}
-# Basic information
-df.info()
-
-```
-
-```{python}
-# Data dimensions
-df.shape
-```
-
 # Data Splitting 
 
 We are trying to classify whether a mushroom is edible (0) or poisonous (1). Going to do a 70/30 train/test split due to the large and roughly equal proportions of edible and poisonous mushrooms. 
