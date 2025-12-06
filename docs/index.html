@@ -165,6 +165,7 @@ Table&nbsp;1: First five rows of the raw dataset.
 </figcaption>
 <div aria-describedby="tbl-sample-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -445,6 +446,7 @@ dtype: int64</code></pre>
 Table&nbsp;2: First five rows of the cleaned dataset.
 </figcaption>
 <div aria-describedby="tbl-sample-cleaned-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 
@@ -755,6 +757,7 @@ Table&nbsp;3: Ranking of features by how well they distinguish poisonous mushroo
 </figcaption>
 <div aria-describedby="tbl-poison-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="23">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="23">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -875,6 +878,10 @@ Table&nbsp;3: Ranking of features by how well they distinguish poisonous mushroo
 <section id="relationship-between-physical-features-and-toxicity-an-exploratory-overview-1" class="level4">
 <h4 class="anchored" data-anchor-id="relationship-between-physical-features-and-toxicity-an-exploratory-overview-1">Relationship Between Physical Features and Toxicity: An Exploratory Overview</h4>
 <p>To explore how individual mushroom characteristics relate to toxicity, we compared the proportion of poisonous and edible mushrooms across several categorical features. <code>python {{ odor_strength }}</code> showed the strongest separation between classes (Figure <a href="#fig-odor-cat" class="quarto-xref">Figure&nbsp;1</a>), with foul-, creosote-, and pungent-smelling mushrooms being almost exclusively poisonous, whereas almond and anise odors were strongly associated with edibility. Gill size also demonstrated a meaningful distinction (Figure <a href="#fig-gill-size" class="quarto-xref">Figure&nbsp;2</a>), with broad gills far more common among edible mushrooms. Habitat exhibited notable patterns as well (Figure <a href="#fig-habitat" class="quarto-xref">Figure&nbsp;3</a>): mushrooms found in wooded or grassy environments were more frequently poisonous, while those growing in urban or path environments tended to be edible. Bruising was another strong indicator (Figure <a href="#fig-bruise" class="quarto-xref">Figure&nbsp;4</a>), as mushrooms that bruised were overwhelmingly edible, whereas those that did not bruise were frequently poisonous. Lastly, population type revealed clear group-level differences (Figure <a href="#fig-pop-type" class="quarto-xref">Figure&nbsp;5</a>), with solitary or scattered mushrooms more often poisonous, while abundant or clustered populations were more commonly edible. Together, these figures illustrate that several features, odor in particular, provide strong discriminatory signals relevant to the classification task.</p>
+</section>
+<section id="relationship-between-physical-features-and-toxicity-an-exploratory-overview-1" class="level4">
+<h4 class="anchored" data-anchor-id="relationship-between-physical-features-and-toxicity-an-exploratory-overview-1">Relationship Between Physical Features and Toxicity: An Exploratory Overview</h4>
+<p>To explore how individual mushroom characteristics relate to toxicity, we compared the proportion of poisonous and edible mushrooms across several categorical features. <code>python {{ odor_strength }}</code> showed the strongest separation between classes (Figure <a href="#fig-odor-cat" class="quarto-xref">Figure&nbsp;1</a>), with foul-, creosote-, and pungent-smelling mushrooms being almost exclusively poisonous, whereas almond and anise odors were strongly associated with edibility. Gill size also demonstrated a meaningful distinction (Figure <a href="#fig-gill-size" class="quarto-xref">Figure&nbsp;2</a>), with broad gills far more common among edible mushrooms. Habitat exhibited notable patterns as well (Figure <a href="#fig-habitat" class="quarto-xref">Figure&nbsp;3</a>): mushrooms found in wooded or grassy environments were more frequently poisonous, while those growing in urban or path environments tended to be edible. Bruising was another strong indicator (Figure <a href="#fig-bruise" class="quarto-xref">Figure&nbsp;4</a>), as mushrooms that bruised were overwhelmingly edible, whereas those that did not bruise were frequently poisonous. Lastly, population type revealed clear group-level differences (Figure <a href="#fig-pop-type" class="quarto-xref">Figure&nbsp;5</a>), with solitary or scattered mushrooms more often poisonous, while abundant or clustered populations were more commonly edible. Together, these figures illustrate that several features, odor in particular, provide strong discriminatory signals relevant to the classification task.</p>
 <!-- ```{python}
     X_train.to_csv('../data/processed/x_train.csv')
     X_test.to_csv('../data/processed/x_test.csv')
@@ -920,6 +927,7 @@ Table&nbsp;4: Mean 10-Fold Cross-Validation Metrics for DummyClassifier Baseline
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
 <span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[25]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[25]</span><span class="ansi-green-fg">, line 6</span>
 <span class="ansi-green-fg">      1</span> dc_pipe = make_pipeline(
 <span class="ansi-green-fg">      2</span>     preprocessor, 
 <span class="ansi-green-fg">      3</span>     DummyClassifier(random_state=<span class="ansi-green-fg">123</span>)
@@ -949,6 +957,7 @@ Table&nbsp;5: Mean 10-Fold Cross-Validation Metrics for SVC Model
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
 <span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[26]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[26]</span><span class="ansi-green-fg">, line 6</span>
 <span class="ansi-green-fg">      1</span> svc_pipe = make_pipeline(
 <span class="ansi-green-fg">      2</span>     preprocessor, 
 <span class="ansi-green-fg">      3</span>     SVC(random_state=<span class="ansi-green-fg">123</span>)
@@ -973,6 +982,7 @@ Table&nbsp;5: Mean 10-Fold Cross-Validation Metrics for SVC Model
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[27]</span><span class="ansi-green-fg">, line 1</span>
 <span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[27]</span><span class="ansi-green-fg">, line 1</span>
 <span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> y_pred = svc_pipe.predict(<span class="ansi-yellow-bg">X_test</span>)
 <span class="ansi-green-fg">      3</span> cm = confusion_matrix(y_test, y_pred)
