@@ -580,10 +580,10 @@ if "veil_type" in X_train.columns:
 
 ```{python}
 #| include: false
-X_train.to_csv('data/processed/x_train.csv')
-X_test.to_csv('data/processed/x_test.csv')
-y_train.to_csv('data/processed/y_train.csv')
-y_test.to_csv('data/processed/y_test.csv')
+X_train.to_csv('../data/processed/x_train.csv', index=False)
+X_test.to_csv('../data/processed/x_test.csv', index=False)
+y_train.to_csv('../data/processed/y_train.csv', index=False)
+y_test.to_csv('../data/processed/y_test.csv', index=False)
 ```
 
 `veil_type` was dropped because it contains only a single category for all observations.
