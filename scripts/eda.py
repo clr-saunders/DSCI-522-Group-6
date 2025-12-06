@@ -338,23 +338,72 @@ def compute_and_save_poison_variance_rank(train_df: pd.DataFrame) -> pd.DataFram
     return feature_importance_eda
 
 
-def cramers_v(df: pd.DataFrame, feature1: str, feature2: str) -> float:
-    """Compute Cramér's V between two categorical features."""
-    table = pd.crosstab(df[feature1], df[feature2])
-    chi2, _, _, _ = chi2_contingency(table)
-    n = table.sum().sum()
-    phi2 = chi2 / n
-    r, k = table.shape
-    return float(np.sqrt(phi2 / min(k - 1, r - 1)))
+# def cramers_v(df: pd.DataFrame, feature1: str, feature2: str) -> float:
+#     """Compute Cramér's V between two categorical features."""
+#     table = pd.crosstab(df[feature1], df[feature2])
+#     chi2, _, _, _ = chi2_contingency(table)
+#     n = table.sum().sum()
+#     phi2 = chi2 / n
+#     r, k = table.shape
+#     return float(np.sqrt(phi2 / min(k - 1, r - 1)))
 
+
+# def compute_and_save_cramers_matrix(train_df: pd.DataFrame) -> None:
+#     """
+#     Compute Cramér's V matrix for all pairwise feature/target combinations
+#     and save both the matrix and a PNG heatmap.
+#     """
+#     cols = list(train_df.columns)
+#     feature_cols = cols  # includes target; that's fine for inspection
+#     pairs = list(itertools.combinations(feature_cols, 2))
+
+#     cramers_matrix = pd.DataFrame(
+#         np.eye(len(feature_cols)),
+#         columns=feature_cols,
+#         index=feature_cols,
+#     )
+
+#     for f1, f2 in pairs:
+#         v = cramers_v(train_df, f1, f2)
+#         cramers_matrix.loc[f1, f2] = v
+#         cramers_matrix.loc[f2, f1] = v
+
+#     # Save raw matrix (table)
+#     matrix_path = TABLES_DIR / "cramers_v_matrix.csv"
+#     cramers_matrix.to_csv(matrix_path)
+#     print(f"\nSaved Cramér's V matrix to {matrix_path}")
+
+#     # Heatmap PNG
+#     cramers_long = cramers_matrix.reset_index().melt(id_vars="index")
+#     cramers_long.columns = ["feature_1", "feature_2", "cramers_v"]
+
+#     heatmap = (
+#         alt.Chart(cramers_long)
+#         .mark_rect()
+#         .encode(
+#             x=alt.X("feature_1:N", sort=feature_cols, title="Feature 1"),
+#             y=alt.Y("feature_2:N", sort=feature_cols, title="Feature 2"),
+#             color=alt.Color(
+#                 "cramers_v:Q",
+#                 scale=alt.Scale(domain=[0, 1], scheme="purpleorange"),
+#                 title="Cramér's V",
+#             ),
+#         )
+#         .properties(width=300, height=300)
+#     )
+
+#     heatmap_path = FIGURES_DIR / "cramers_v_heatmap.png"
+#     heatmap.save(heatmap_path)
+#     print(f"Saved Cramér's V heatmap to {heatmap_path}")
+    
 
 def compute_and_save_cramers_matrix(train_df: pd.DataFrame) -> None:
     """
-    Compute Cramér's V matrix for all pairwise feature/target combinations
-    and save both the matrix and a PNG heatmap.
+    Compute Cramer's V matrix for all pairwise feature/target combinations
+    and save only the PNG heatmap.
     """
     cols = list(train_df.columns)
-    feature_cols = cols  # includes target; that's fine for inspection
+    feature_cols = cols
     pairs = list(itertools.combinations(feature_cols, 2))
 
     cramers_matrix = pd.DataFrame(
@@ -368,12 +417,7 @@ def compute_and_save_cramers_matrix(train_df: pd.DataFrame) -> None:
         cramers_matrix.loc[f1, f2] = v
         cramers_matrix.loc[f2, f1] = v
 
-    # Save raw matrix (table)
-    matrix_path = TABLES_DIR / "cramers_v_matrix.csv"
-    cramers_matrix.to_csv(matrix_path)
-    print(f"\nSaved Cramér's V matrix to {matrix_path}")
-
-    # Heatmap PNG
+    # Heatmap PNG only
     cramers_long = cramers_matrix.reset_index().melt(id_vars="index")
     cramers_long.columns = ["feature_1", "feature_2", "cramers_v"]
 
@@ -386,7 +430,7 @@ def compute_and_save_cramers_matrix(train_df: pd.DataFrame) -> None:
             color=alt.Color(
                 "cramers_v:Q",
                 scale=alt.Scale(domain=[0, 1], scheme="purpleorange"),
-                title="Cramér's V",
+                title="Cramer's V",
             ),
         )
         .properties(width=300, height=300)
@@ -394,9 +438,7 @@ def compute_and_save_cramers_matrix(train_df: pd.DataFrame) -> None:
 
     heatmap_path = FIGURES_DIR / "cramers_v_heatmap.png"
     heatmap.save(heatmap_path)
-    print(f"Saved Cramér's V heatmap to {heatmap_path}")
-    
-
+    print(f"Saved Cramer's V heatmap to {heatmap_path}")
 
 
 # -------------------------------------------------------------------

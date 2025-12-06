@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Amar Gill, Ruth Yankson, Limor Winter, Claire Saunders">
-<meta name="dcterms.date" content="2025-11-18">
+<meta name="dcterms.date" content="2025-12-06">
 
 <title>Poisonous Mushroom Classification</title>
 <style>
@@ -22,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="poisonous_mushroom_classifier_files/libs/clipboard/clipboard.min.js"></script>
@@ -44,10 +64,42 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul class="collapse">
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  </ul></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a>
+  <ul class="collapse">
+  <li><a href="#data-validation-checks" id="toc-data-validation-checks" class="nav-link" data-scroll-target="#data-validation-checks">Data Validation Checks</a></li>
+  </ul></li>
+  <li><a href="#data-cleaning-and-wrangling" id="toc-data-cleaning-and-wrangling" class="nav-link" data-scroll-target="#data-cleaning-and-wrangling">Data cleaning and wrangling</a>
+  <ul class="collapse">
+  <li><a href="#data-validation-checks-1" id="toc-data-validation-checks-1" class="nav-link" data-scroll-target="#data-validation-checks-1">Data Validation Checks</a></li>
+  </ul></li>
+  <li><a href="#basic-eda" id="toc-basic-eda" class="nav-link" data-scroll-target="#basic-eda">Basic EDA</a></li>
+  <li><a href="#data-splitting" id="toc-data-splitting" class="nav-link" data-scroll-target="#data-splitting">Data Splitting</a></li>
+  <li><a href="#eda-after-data-splitting" id="toc-eda-after-data-splitting" class="nav-link" data-scroll-target="#eda-after-data-splitting">EDA After Data Splitting</a>
+  <ul class="collapse">
+  <li><a href="#data-validation-check-any-anomalous-correlation-between-features-andor-target" id="toc-data-validation-check-any-anomalous-correlation-between-features-andor-target" class="nav-link" data-scroll-target="#data-validation-check-any-anomalous-correlation-between-features-andor-target">Data Validation Check: Any Anomalous Correlation Between Features and/or Target?</a></li>
+  <li><a href="#summary-of-anomalous-correlation-between-features" id="toc-summary-of-anomalous-correlation-between-features" class="nav-link" data-scroll-target="#summary-of-anomalous-correlation-between-features">Summary of Anomalous Correlation Between Features:</a></li>
+  <li><a href="#summary-of-anomalous-correlation-between-feature-odor-and-target" id="toc-summary-of-anomalous-correlation-between-feature-odor-and-target" class="nav-link" data-scroll-target="#summary-of-anomalous-correlation-between-feature-odor-and-target">Summary of Anomalous Correlation Between Feature “Odor” and Target:</a></li>
+  </ul></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a></li>
+  <li><a href="#results-discussion" id="toc-results-discussion" class="nav-link" data-scroll-target="#results-discussion">Results &amp; Discussion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -69,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 18, 2025</p>
+      <p class="date">December 6, 2025</p>
     </div>
   </div>
   
@@ -81,24 +133,20 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="imports" class="level1">
-<h1>Imports</h1>
-<p><em>Never forget to run imports first.</em></p>
-</section>
 <section id="summary" class="level1">
 <h1>Summary</h1>
 <p>Here we attempt to build a classification model using a Support Vector Machine algorithm which can use physical characteristics of mushrooms to predict whether a North American mushroom from the Agaricus and Lepiota (Agaricaceae) family is edible or poisonous for human consumption. Our final classifier performed excellently on an unseen test data set, with precision and recall of 1.0 and an overall accuracy calculated to be 1.0. On the 2,438 test data observations, the model correctly predicted all 2,438. Although the model performs extremely well it has practical limitations, because it requires the correct identification of 20 different physical characteristics of a given mushroom in order for the corresponding prediction to be correct. We believe the model could be a powerful tool for preventing the misidentification of the Agaricus and Lepiota family of mushrooms, but further efforts to improve the practical implementation of the model for usage by the public would be very useful.</p>
 </section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>The Agaricus and Lepiota (Agaricaceae) family of mushrooms, includes many of the common gilled mushrooms found and cultivated in urban and suburban North America (Lincoff, 1981, 500). The family includes the common cultivated mushroom (Agaricus bisporus), and some of the best edible mushrooms, but it also includes poisonous mushrooms and a few that are deadly(500). These mushrooms are sometimes found in forests, but many grow on lawns, in the compost, or along roadsides and grassy areas where they are readily accessible for human consumption (500). Accurate assessment of the edibility of these mushrooms is extremely important prior to consumption, however there is no simple rule for determining whether any example is poisonous or edible (500-505).</p>
-<p>Here we ask if we can use a supervised machine learning algorithm to predict whether a given mushroom from the Agaricus and Lepiota family of mushrooms is edible or poisonous, based upon it’s physical characteristics. Answering this question is important because mushroom poisonings are common and the greatest risk factor for mushroom poisoning is the misidentification of poisonous species as edible, in particular by amateur mushroom foragers and immigrants (Diaz, 2016) If made accessible to the public in North America, accurate prediction of mushrooms in this family could prevent poisoning and support the safe consumption of common edible mushrooms.</p>
+<p>The Agaricus and Lepiota (Agaricaceae) family of mushrooms, includes many of the common gilled mushrooms found and cultivated in urban and suburban North America <span class="citation" data-cites="mushbook">(<a href="#ref-mushbook" role="doc-biblioref">Lincoff 1981</a>)</span>. The family includes the common cultivated mushroom (Agaricus bisporus), and some of the best edible mushrooms, but it also includes poisonous mushrooms and a few that are deadly <span class="citation" data-cites="mushbook">(<a href="#ref-mushbook" role="doc-biblioref">Lincoff 1981</a>)</span>. These mushrooms are sometimes found in forests, but many grow on lawns, in the compost, or along roadsides and grassy areas where they are readily accessible for human consumption <span class="citation" data-cites="mushbook">(<a href="#ref-mushbook" role="doc-biblioref">Lincoff 1981</a>)</span>. Accurate assessment of the edibility of these mushrooms is extremely important prior to consumption, however there is no simple rule for determining whether any example is poisonous or edible <span class="citation" data-cites="mushbook">(<a href="#ref-mushbook" role="doc-biblioref">Lincoff 1981</a>)</span>.</p>
+<p>Here we ask if we can use a supervised machine learning algorithm to predict whether a given mushroom from the Agaricus and Lepiota family of mushrooms is edible or poisonous, based upon it’s physical characteristics. Answering this question is important because mushroom poisonings are common and the greatest risk factor for mushroom poisoning is the misidentification of poisonous species as edible, in particular by amateur mushroom foragers and immigrants <span class="citation" data-cites="poisonarticle">(<a href="#ref-poisonarticle" role="doc-biblioref">Diaz 2016</a>)</span> If made accessible to the public in North America, accurate prediction of mushrooms in this family could prevent poisoning and support the safe consumption of common edible mushrooms.</p>
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>The data set used in this project includes hypothetical mushroom samples drawn from The Audobon Society Field Guide to North American Mushrooms by Gary Lincoff (1981, 500-525). It was sourced from the UCI Machine Learning Repository, and can be found <a href="https://archive.ics.uci.edu/dataset/73/mushroom">here</a>, specifically the file <em>agarius-lepiota.data</em>. It includes 8124 descriptions of hypothetical mushroom samples that correspond to 23 species of mushrooms in the Agaricus and Lepiota Family (Mushroom, 1981). Each row includes 22 categorical variables that are physical characteristics of the mushroom sample, including the odor, gill-spacing, gill-color, gill-size, population, habitat, etc, and is labelled as edible or poisonous.</p>
+<p>The data set used in this project includes hypothetical mushroom samples drawn from The Audobon Society Field Guide to North American Mushrooms by Gary Lincoff <span class="citation" data-cites="mushbook">(<a href="#ref-mushbook" role="doc-biblioref">Lincoff 1981</a>)</span>. It was sourced from the UCI Machine Learning Repository, and can be found <a href="https://archive.ics.uci.edu/dataset/73/mushroom">here</a>, specifically the file <em>agarius-lepiota.data</em>. It includes 8124 descriptions of hypothetical mushroom samples that correspond to 23 species of mushrooms in the Agaricus and Lepiota Family <span class="citation" data-cites="datasource">(<a href="#ref-datasource" role="doc-biblioref"><span>“Mushroom”</span> 1981</a>)</span>. Each row includes 22 categorical variables that are physical characteristics of the mushroom sample, including the odor, gill-spacing, gill-color, gill-size, population, habitat, etc, and is labelled as edible or poisonous.</p>
 </section>
 </section>
 <section id="analysis" class="level1">
@@ -116,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
 Table&nbsp;1: First five rows of the raw dataset.
 </figcaption>
 <div aria-describedby="tbl-sample-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="74">
 <div>
 
 
@@ -278,16 +326,16 @@ Table&nbsp;1: First five rows of the raw dataset.
 </figure>
 </div>
 </div>
-<p>A preview of the first five rows of the raw dataset is shown in Table <a href="#tbl-sample-data" class="quarto-xref">Table&nbsp;1</a>, which illustrates the categorical structure of all features prior to cleaning.</p>
+<p>A preview of the first five rows of the raw dataset is shown in <a href="#tbl-sample-data" class="quarto-xref">Table&nbsp;1</a>, which illustrates the categorical structure of all features prior to cleaning.</p>
 <section id="data-validation-checks-1" class="level2">
 <h2 class="anchored" data-anchor-id="data-validation-checks-1">Data Validation Checks</h2>
-<div id="a78bbf8f" class="cell" data-execution_count="7">
+<div id="d7cefafe" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>[OK] Target distribution matches expected proportions (within tolerance).</code></pre>
 </div>
 </div>
-<div id="de5ba3e7" class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display" data-execution_count="32">
+<div id="8ba34dd3" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="78">
 <pre><code>class                       0
 cap_shape                   0
 cap_surface                 0
@@ -314,8 +362,8 @@ habitat                     0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="01e36f53" class="cell" data-execution_count="10">
-<div class="cell-output cell-output-display" data-execution_count="33">
+<div id="f3ee60a0" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="79">
 <pre><code>class                          0
 cap_shape                      0
 cap_surface                    0
@@ -342,8 +390,8 @@ habitat                        0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="9142c43e" class="cell" data-execution_count="15">
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div id="74831171" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="84">
 <pre><code>cap_shape                   0
 cap_surface                 0
 cap_color                   0
@@ -369,12 +417,12 @@ is_poisonous                0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="3b5c9ec6" class="cell" data-execution_count="16">
+<div id="a6d94650" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-stdout">
 <pre><code>[OK] Cleaned column names validated.</code></pre>
 </div>
 </div>
-<div id="199b63ed" class="cell" data-execution_count="17">
+<div id="748f2d03" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-stdout">
 <pre><code>[OK] Pandera schema validation passed:
    - all feature columns are string-typed
@@ -397,7 +445,7 @@ dtype: int64</code></pre>
 Table&nbsp;2: First five rows of the cleaned dataset.
 </figcaption>
 <div aria-describedby="tbl-sample-cleaned-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="42">
+<div class="cell-output cell-output-display" data-execution_count="88">
 <div>
 
 
@@ -559,7 +607,7 @@ Table&nbsp;2: First five rows of the cleaned dataset.
 </figure>
 </div>
 </div>
-<div id="4c9e19b0" class="cell" data-execution_count="20">
+<div id="caa58033" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 RangeIndex: 8124 entries, 0 to 8123
@@ -592,8 +640,8 @@ dtypes: int64(1), object(21)
 memory usage: 1.4+ MB</code></pre>
 </div>
 </div>
-<div id="46c1458e" class="cell" data-execution_count="21">
-<div class="cell-output cell-output-display" data-execution_count="44">
+<div id="d3ee568c" class="cell" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="90">
 <pre><code>(8124, 22)</code></pre>
 </div>
 </div>
@@ -664,12 +712,12 @@ print(
 )
 
 ``` -->
-<div id="e87ac89f" class="cell" data-execution_count="22">
+<div id="a27240c9" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[45]</span><span class="ansi-green-fg">, line 2</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[91]</span><span class="ansi-green-fg">, line 2</span>
 <span class="ansi-green-fg">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Feature column names</span>
 <span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> feature_cols = <span class="ansi-yellow-bg">X_train</span>.columns
 
@@ -687,7 +735,7 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[46]</span><span class="ansi-green-fg">, line 2</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[92]</span><span class="ansi-green-fg">, line 2</span>
 <span class="ansi-green-fg">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Key mushroom feature summary</span>
 <span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> mushroom_feature_summary = <span class="ansi-yellow-bg">pd</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">read_csv</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">../results/mushroom_feature_summary.csv</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
 <span class="ansi-green-fg">      3</span> Markdown(mushroom_feature_summary.to_markdown(index = <span style="font-weight:bold;color:rgb(0,135,0)">False</span>))
@@ -752,7 +800,7 @@ Table&nbsp;3: Summary of mushroom feature characteristics
 </div>
 </figure>
 </div>
-<p>We summarize all 21 categorical predictors in Table <a href="#tbl-feature-summary" class="quarto-xref">Table&nbsp;3</a>, which reports the number of levels and the dominant category for each feature. Given that veil_type only has one level, the values are the same for all observations so we drop that column.</p>
+<p>We summarize all 21 categorical predictors in <a href="#tbl-feature-summary" class="quarto-xref">Table&nbsp;3</a>, which reports the number of levels and the dominant category for each feature. Given that veil_type only has one level, the values are the same for all observations so we drop that column.</p>
 <!-- ```{python}
     X_train.to_csv('data/processed/x_train.csv')
     X_test.to_csv('data/processed/x_test.csv')
@@ -813,26 +861,129 @@ Figure&nbsp;5: Class Proportions (edible vs poisonous) by Population Type
 <section id="relationship-between-physical-features-and-toxicity-an-exploratory-overview" class="level4">
 <h4 class="anchored" data-anchor-id="relationship-between-physical-features-and-toxicity-an-exploratory-overview">Relationship Between Physical Features and Toxicity: An Exploratory Overview</h4>
 <p>To explore how individual mushroom characteristics relate to toxicity, we compared the proportion of poisonous and edible mushrooms across several categorical features. showed the strongest separation between classes (Figure <a href="#fig-odor-cat" class="quarto-xref">Figure&nbsp;1</a>), with foul-, creosote-, and pungent-smelling mushrooms being almost exclusively poisonous, whereas almond and anise odors were strongly associated with edibility. Gill size also demonstrated a meaningful distinction (Figure <a href="#fig-gill-size" class="quarto-xref">Figure&nbsp;2</a>), with broad gills far more common among edible mushrooms. Habitat exhibited notable patterns as well (Figure <a href="#fig-habitat" class="quarto-xref">Figure&nbsp;3</a>): mushrooms found in wooded or grassy environments were more frequently poisonous, while those growing in urban or path environments tended to be edible. Bruising was another strong indicator (Figure <a href="#fig-bruise" class="quarto-xref">Figure&nbsp;4</a>), as mushrooms that bruised were overwhelmingly edible, whereas those that did not bruise were frequently poisonous. Lastly, population type revealed clear group-level differences (Figure <a href="#fig-pop-type" class="quarto-xref">Figure&nbsp;5</a>), with solitary or scattered mushrooms more often poisonous, while abundant or clustered populations were more commonly edible. Together, these figures illustrate that several features, odor in particular, provide strong discriminatory signals relevant to the classification task.</p>
+<div class="cell" data-execution_count="24">
 <div id="tbl-poison-rank" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="24">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-poison-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4: Ranking of features by how well they distinguish poisonous mushrooms
 </figcaption>
 <div aria-describedby="tbl-poison-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[47]</span><span class="ansi-green-fg">, line 3</span>
-<span class="ansi-green-fg">      1</span> poison_rank = pd.read_csv(<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">../results/tables/feature_poison_variance_rank.csv</span><span class="ansi-yellow-fg">"</span>)
-<span class="ansi-green-fg">      2</span> <span style="font-style:italic;color:rgb(95,135,135)"># odor_strength = poison_rank["feature"].iloc[0]</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">3</span> <span class="ansi-yellow-bg">Markdown</span>(poison_rank.to_markdown(index = <span style="font-weight:bold;color:rgb(0,135,0)">False</span>))
-
-<span class="ansi-red-fg">NameError</span>: name 'Markdown' is not defined</pre>
-</div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="93">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Unnamed: 0</th>
+<th style="text-align: left;">feature</th>
+<th style="text-align: right;">poison_variance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">odor</td>
+<td style="text-align: right;">0.25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">veil_color</td>
+<td style="text-align: right;">0.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">stalk_color_above_ring</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">stalk_color_below_ring</td>
+<td style="text-align: right;">0.21</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">ring_type</td>
+<td style="text-align: right;">0.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">ring_number</td>
+<td style="text-align: right;">0.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">spore_print_color</td>
+<td style="text-align: right;">0.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">gill_size</td>
+<td style="text-align: right;">0.17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">gill_color</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">cap_shape</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">bruises</td>
+<td style="text-align: right;">0.13</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">gill_spacing</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">habitat</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">stalk_surface_below_ring</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">stalk_surface_above_ring</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">cap_surface</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">gill_attachment</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">cap_color</td>
+<td style="text-align: right;">0.06</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">stalk_shape</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </figure>
+</div>
 </div>
 <!-- ```{python}
     X_train.to_csv('../data/processed/x_train.csv')
@@ -840,29 +991,578 @@ Table&nbsp;4: Ranking of features by how well they distinguish poisonous mushroo
     y_train.to_csv('../data/processed/y_train.csv')
     y_test.to_csv('../data/processed/y_test.csv')
 ``` -->
-<p>A ranking of features by their discriminatory power is shown in Table <a href="#tbl-poison-rank" class="quarto-xref">Table&nbsp;4</a>, using the variance in poisonous fraction across categories as an association measure.</p>
+<p>A ranking of features by their discriminatory power is shown in <a href="#tbl-poison-rank" class="quarto-xref">Table&nbsp;4</a>, using the variance in poisonous fraction across categories as an association measure.</p>
 </section>
 <section id="data-validation-check-any-anomalous-correlation-between-features-andor-target" class="level2">
 <h2 class="anchored" data-anchor-id="data-validation-check-any-anomalous-correlation-between-features-andor-target">Data Validation Check: Any Anomalous Correlation Between Features and/or Target?</h2>
-<div id="fig-corr-heatmap" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="25">
+<div id="cell-fig-corr-heatmap" class="cell" data-execution_count="25">
+<div id="fig-corr-heatmap" class="cell-output cell-output-display cell-output-markdown quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="94">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-corr-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[48]</span><span class="ansi-green-fg">, line 2</span>
-<span class="ansi-green-fg">      1</span> cramers_v_matrix = pd.read_csv(<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">../results/tables/cramers_v_matrix.csv</span><span class="ansi-yellow-fg">"</span>)
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> <span class="ansi-yellow-bg">Markdown</span>(cramers_v_matrix.to_markdown(index = <span style="font-weight:bold;color:rgb(0,135,0)">False</span>))
-
-<span class="ansi-red-fg">NameError</span>: name 'Markdown' is not defined</pre>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Unnamed: 0</th>
+<th style="text-align: right;">cap_shape</th>
+<th style="text-align: right;">cap_surface</th>
+<th style="text-align: right;">cap_color</th>
+<th style="text-align: right;">bruises</th>
+<th style="text-align: right;">odor</th>
+<th style="text-align: right;">gill_attachment</th>
+<th style="text-align: right;">gill_spacing</th>
+<th style="text-align: right;">gill_size</th>
+<th style="text-align: right;">gill_color</th>
+<th style="text-align: right;">stalk_shape</th>
+<th style="text-align: right;">stalk_surface_above_ring</th>
+<th style="text-align: right;">stalk_surface_below_ring</th>
+<th style="text-align: right;">stalk_color_above_ring</th>
+<th style="text-align: right;">stalk_color_below_ring</th>
+<th style="text-align: right;">veil_color</th>
+<th style="text-align: right;">ring_number</th>
+<th style="text-align: right;">ring_type</th>
+<th style="text-align: right;">spore_print_color</th>
+<th style="text-align: right;">population</th>
+<th style="text-align: right;">habitat</th>
+<th style="text-align: right;">is_poisonous</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">cap_shape</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.217828</td>
+<td style="text-align: right;">0.175121</td>
+<td style="text-align: right;">0.253878</td>
+<td style="text-align: right;">0.251312</td>
+<td style="text-align: right;">0.15831</td>
+<td style="text-align: right;">0.0841497</td>
+<td style="text-align: right;">0.343433</td>
+<td style="text-align: right;">0.236624</td>
+<td style="text-align: right;">0.312597</td>
+<td style="text-align: right;">0.172452</td>
+<td style="text-align: right;">0.117799</td>
+<td style="text-align: right;">0.234591</td>
+<td style="text-align: right;">0.185613</td>
+<td style="text-align: right;">0.254257</td>
+<td style="text-align: right;">0.195461</td>
+<td style="text-align: right;">0.208658</td>
+<td style="text-align: right;">0.249082</td>
+<td style="text-align: right;">0.253064</td>
+<td style="text-align: right;">0.271035</td>
+<td style="text-align: right;">0.249512</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cap_surface</td>
+<td style="text-align: right;">0.217828</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.216204</td>
+<td style="text-align: right;">0.141533</td>
+<td style="text-align: right;">0.237468</td>
+<td style="text-align: right;">0.212199</td>
+<td style="text-align: right;">0.346247</td>
+<td style="text-align: right;">0.269061</td>
+<td style="text-align: right;">0.258191</td>
+<td style="text-align: right;">0.0866307</td>
+<td style="text-align: right;">0.147814</td>
+<td style="text-align: right;">0.175844</td>
+<td style="text-align: right;">0.25769</td>
+<td style="text-align: right;">0.261556</td>
+<td style="text-align: right;">0.136202</td>
+<td style="text-align: right;">0.0934606</td>
+<td style="text-align: right;">0.225321</td>
+<td style="text-align: right;">0.23024</td>
+<td style="text-align: right;">0.263409</td>
+<td style="text-align: right;">0.246909</td>
+<td style="text-align: right;">0.184251</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cap_color</td>
+<td style="text-align: right;">0.175121</td>
+<td style="text-align: right;">0.216204</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.221224</td>
+<td style="text-align: right;">0.337471</td>
+<td style="text-align: right;">0.259751</td>
+<td style="text-align: right;">0.399796</td>
+<td style="text-align: right;">0.47212</td>
+<td style="text-align: right;">0.283849</td>
+<td style="text-align: right;">0.593884</td>
+<td style="text-align: right;">0.258573</td>
+<td style="text-align: right;">0.323747</td>
+<td style="text-align: right;">0.290348</td>
+<td style="text-align: right;">0.28887</td>
+<td style="text-align: right;">0.155068</td>
+<td style="text-align: right;">0.376084</td>
+<td style="text-align: right;">0.560461</td>
+<td style="text-align: right;">0.287189</td>
+<td style="text-align: right;">0.309509</td>
+<td style="text-align: right;">0.329964</td>
+<td style="text-align: right;">0.219537</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bruises</td>
+<td style="text-align: right;">0.253878</td>
+<td style="text-align: right;">0.141533</td>
+<td style="text-align: right;">0.221224</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.660621</td>
+<td style="text-align: right;">0.138295</td>
+<td style="text-align: right;">0.294425</td>
+<td style="text-align: right;">0.364771</td>
+<td style="text-align: right;">0.647551</td>
+<td style="text-align: right;">0.0993866</td>
+<td style="text-align: right;">0.571874</td>
+<td style="text-align: right;">0.568529</td>
+<td style="text-align: right;">0.485565</td>
+<td style="text-align: right;">0.494193</td>
+<td style="text-align: right;">0.135586</td>
+<td style="text-align: right;">0.0702145</td>
+<td style="text-align: right;">0.76775</td>
+<td style="text-align: right;">0.610768</td>
+<td style="text-align: right;">0.295846</td>
+<td style="text-align: right;">0.524941</td>
+<td style="text-align: right;">0.499602</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">odor</td>
+<td style="text-align: right;">0.251312</td>
+<td style="text-align: right;">0.237468</td>
+<td style="text-align: right;">0.337471</td>
+<td style="text-align: right;">0.660621</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.269502</td>
+<td style="text-align: right;">0.428754</td>
+<td style="text-align: right;">0.765949</td>
+<td style="text-align: right;">0.391645</td>
+<td style="text-align: right;">0.580262</td>
+<td style="text-align: right;">0.418385</td>
+<td style="text-align: right;">0.516266</td>
+<td style="text-align: right;">0.450682</td>
+<td style="text-align: right;">0.447858</td>
+<td style="text-align: right;">0.10738</td>
+<td style="text-align: right;">0.74285</td>
+<td style="text-align: right;">0.698983</td>
+<td style="text-align: right;">0.399737</td>
+<td style="text-align: right;">0.377634</td>
+<td style="text-align: right;">0.364853</td>
+<td style="text-align: right;">0.974401</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gill_attachment</td>
+<td style="text-align: right;">0.15831</td>
+<td style="text-align: right;">0.212199</td>
+<td style="text-align: right;">0.259751</td>
+<td style="text-align: right;">0.138295</td>
+<td style="text-align: right;">0.269502</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0713344</td>
+<td style="text-align: right;">0.10919</td>
+<td style="text-align: right;">0.773431</td>
+<td style="text-align: right;">0.187671</td>
+<td style="text-align: right;">0.0938208</td>
+<td style="text-align: right;">0.128888</td>
+<td style="text-align: right;">0.976055</td>
+<td style="text-align: right;">0.976055</td>
+<td style="text-align: right;">0.951632</td>
+<td style="text-align: right;">0.210689</td>
+<td style="text-align: right;">0.257275</td>
+<td style="text-align: right;">0.829683</td>
+<td style="text-align: right;">0.44276</td>
+<td style="text-align: right;">0.445186</td>
+<td style="text-align: right;">0.128247</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gill_spacing</td>
+<td style="text-align: right;">0.0841497</td>
+<td style="text-align: right;">0.346247</td>
+<td style="text-align: right;">0.399796</td>
+<td style="text-align: right;">0.294425</td>
+<td style="text-align: right;">0.428754</td>
+<td style="text-align: right;">0.0713344</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.106791</td>
+<td style="text-align: right;">0.318576</td>
+<td style="text-align: right;">0.0885756</td>
+<td style="text-align: right;">0.4463</td>
+<td style="text-align: right;">0.419747</td>
+<td style="text-align: right;">0.40093</td>
+<td style="text-align: right;">0.376407</td>
+<td style="text-align: right;">0.101101</td>
+<td style="text-align: right;">0.248833</td>
+<td style="text-align: right;">0.294301</td>
+<td style="text-align: right;">0.311922</td>
+<td style="text-align: right;">0.671623</td>
+<td style="text-align: right;">0.536195</td>
+<td style="text-align: right;">0.352664</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gill_size</td>
+<td style="text-align: right;">0.343433</td>
+<td style="text-align: right;">0.269061</td>
+<td style="text-align: right;">0.47212</td>
+<td style="text-align: right;">0.364771</td>
+<td style="text-align: right;">0.765949</td>
+<td style="text-align: right;">0.10919</td>
+<td style="text-align: right;">0.106791</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.784409</td>
+<td style="text-align: right;">0.220618</td>
+<td style="text-align: right;">0.167277</td>
+<td style="text-align: right;">0.159499</td>
+<td style="text-align: right;">0.363964</td>
+<td style="text-align: right;">0.348272</td>
+<td style="text-align: right;">0.115592</td>
+<td style="text-align: right;">0.19287</td>
+<td style="text-align: right;">0.569028</td>
+<td style="text-align: right;">0.659164</td>
+<td style="text-align: right;">0.516878</td>
+<td style="text-align: right;">0.492578</td>
+<td style="text-align: right;">0.532766</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gill_color</td>
+<td style="text-align: right;">0.236624</td>
+<td style="text-align: right;">0.258191</td>
+<td style="text-align: right;">0.283849</td>
+<td style="text-align: right;">0.647551</td>
+<td style="text-align: right;">0.391645</td>
+<td style="text-align: right;">0.773431</td>
+<td style="text-align: right;">0.318576</td>
+<td style="text-align: right;">0.784409</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.612951</td>
+<td style="text-align: right;">0.353025</td>
+<td style="text-align: right;">0.379242</td>
+<td style="text-align: right;">0.427708</td>
+<td style="text-align: right;">0.413574</td>
+<td style="text-align: right;">0.455346</td>
+<td style="text-align: right;">0.43685</td>
+<td style="text-align: right;">0.51539</td>
+<td style="text-align: right;">0.482254</td>
+<td style="text-align: right;">0.422908</td>
+<td style="text-align: right;">0.456652</td>
+<td style="text-align: right;">0.678601</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stalk_shape</td>
+<td style="text-align: right;">0.312597</td>
+<td style="text-align: right;">0.0866307</td>
+<td style="text-align: right;">0.593884</td>
+<td style="text-align: right;">0.0993866</td>
+<td style="text-align: right;">0.580262</td>
+<td style="text-align: right;">0.187671</td>
+<td style="text-align: right;">0.0885756</td>
+<td style="text-align: right;">0.220618</td>
+<td style="text-align: right;">0.612951</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.326064</td>
+<td style="text-align: right;">0.367327</td>
+<td style="text-align: right;">0.532076</td>
+<td style="text-align: right;">0.548009</td>
+<td style="text-align: right;">0.183603</td>
+<td style="text-align: right;">0.329871</td>
+<td style="text-align: right;">0.619622</td>
+<td style="text-align: right;">0.457855</td>
+<td style="text-align: right;">0.461294</td>
+<td style="text-align: right;">0.410958</td>
+<td style="text-align: right;">0.0968304</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stalk_surface_above_ring</td>
+<td style="text-align: right;">0.172452</td>
+<td style="text-align: right;">0.147814</td>
+<td style="text-align: right;">0.258573</td>
+<td style="text-align: right;">0.571874</td>
+<td style="text-align: right;">0.418385</td>
+<td style="text-align: right;">0.0938208</td>
+<td style="text-align: right;">0.4463</td>
+<td style="text-align: right;">0.167277</td>
+<td style="text-align: right;">0.353025</td>
+<td style="text-align: right;">0.326064</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.497651</td>
+<td style="text-align: right;">0.521553</td>
+<td style="text-align: right;">0.443735</td>
+<td style="text-align: right;">0.339938</td>
+<td style="text-align: right;">0.134187</td>
+<td style="text-align: right;">0.45904</td>
+<td style="text-align: right;">0.418098</td>
+<td style="text-align: right;">0.325049</td>
+<td style="text-align: right;">0.299078</td>
+<td style="text-align: right;">0.58622</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stalk_surface_below_ring</td>
+<td style="text-align: right;">0.117799</td>
+<td style="text-align: right;">0.175844</td>
+<td style="text-align: right;">0.323747</td>
+<td style="text-align: right;">0.568529</td>
+<td style="text-align: right;">0.516266</td>
+<td style="text-align: right;">0.128888</td>
+<td style="text-align: right;">0.419747</td>
+<td style="text-align: right;">0.159499</td>
+<td style="text-align: right;">0.379242</td>
+<td style="text-align: right;">0.367327</td>
+<td style="text-align: right;">0.497651</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.457711</td>
+<td style="text-align: right;">0.464719</td>
+<td style="text-align: right;">0.122592</td>
+<td style="text-align: right;">0.268347</td>
+<td style="text-align: right;">0.526289</td>
+<td style="text-align: right;">0.421658</td>
+<td style="text-align: right;">0.329685</td>
+<td style="text-align: right;">0.309549</td>
+<td style="text-align: right;">0.581178</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stalk_color_above_ring</td>
+<td style="text-align: right;">0.234591</td>
+<td style="text-align: right;">0.25769</td>
+<td style="text-align: right;">0.290348</td>
+<td style="text-align: right;">0.485565</td>
+<td style="text-align: right;">0.450682</td>
+<td style="text-align: right;">0.976055</td>
+<td style="text-align: right;">0.40093</td>
+<td style="text-align: right;">0.363964</td>
+<td style="text-align: right;">0.427708</td>
+<td style="text-align: right;">0.532076</td>
+<td style="text-align: right;">0.521553</td>
+<td style="text-align: right;">0.457711</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.646089</td>
+<td style="text-align: right;">0.816497</td>
+<td style="text-align: right;">0.774292</td>
+<td style="text-align: right;">0.671226</td>
+<td style="text-align: right;">0.416206</td>
+<td style="text-align: right;">0.428387</td>
+<td style="text-align: right;">0.427979</td>
+<td style="text-align: right;">0.528527</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stalk_color_below_ring</td>
+<td style="text-align: right;">0.185613</td>
+<td style="text-align: right;">0.261556</td>
+<td style="text-align: right;">0.28887</td>
+<td style="text-align: right;">0.494193</td>
+<td style="text-align: right;">0.447858</td>
+<td style="text-align: right;">0.976055</td>
+<td style="text-align: right;">0.376407</td>
+<td style="text-align: right;">0.348272</td>
+<td style="text-align: right;">0.413574</td>
+<td style="text-align: right;">0.548009</td>
+<td style="text-align: right;">0.443735</td>
+<td style="text-align: right;">0.464719</td>
+<td style="text-align: right;">0.646089</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.682972</td>
+<td style="text-align: right;">0.772144</td>
+<td style="text-align: right;">0.665189</td>
+<td style="text-align: right;">0.41291</td>
+<td style="text-align: right;">0.422167</td>
+<td style="text-align: right;">0.421567</td>
+<td style="text-align: right;">0.515991</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">veil_color</td>
+<td style="text-align: right;">0.254257</td>
+<td style="text-align: right;">0.136202</td>
+<td style="text-align: right;">0.155068</td>
+<td style="text-align: right;">0.135586</td>
+<td style="text-align: right;">0.10738</td>
+<td style="text-align: right;">0.951632</td>
+<td style="text-align: right;">0.101101</td>
+<td style="text-align: right;">0.115592</td>
+<td style="text-align: right;">0.455346</td>
+<td style="text-align: right;">0.183603</td>
+<td style="text-align: right;">0.339938</td>
+<td style="text-align: right;">0.122592</td>
+<td style="text-align: right;">0.816497</td>
+<td style="text-align: right;">0.682972</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.03301</td>
+<td style="text-align: right;">0.096684</td>
+<td style="text-align: right;">0.505787</td>
+<td style="text-align: right;">0.2424</td>
+<td style="text-align: right;">0.278272</td>
+<td style="text-align: right;">0.155672</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ring_number</td>
+<td style="text-align: right;">0.195461</td>
+<td style="text-align: right;">0.0934606</td>
+<td style="text-align: right;">0.376084</td>
+<td style="text-align: right;">0.0702145</td>
+<td style="text-align: right;">0.74285</td>
+<td style="text-align: right;">0.210689</td>
+<td style="text-align: right;">0.248833</td>
+<td style="text-align: right;">0.19287</td>
+<td style="text-align: right;">0.43685</td>
+<td style="text-align: right;">0.329871</td>
+<td style="text-align: right;">0.134187</td>
+<td style="text-align: right;">0.268347</td>
+<td style="text-align: right;">0.774292</td>
+<td style="text-align: right;">0.772144</td>
+<td style="text-align: right;">0.03301</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.713789</td>
+<td style="text-align: right;">0.366917</td>
+<td style="text-align: right;">0.419334</td>
+<td style="text-align: right;">0.430298</td>
+<td style="text-align: right;">0.217054</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ring_type</td>
+<td style="text-align: right;">0.208658</td>
+<td style="text-align: right;">0.225321</td>
+<td style="text-align: right;">0.560461</td>
+<td style="text-align: right;">0.76775</td>
+<td style="text-align: right;">0.698983</td>
+<td style="text-align: right;">0.257275</td>
+<td style="text-align: right;">0.294301</td>
+<td style="text-align: right;">0.569028</td>
+<td style="text-align: right;">0.51539</td>
+<td style="text-align: right;">0.619622</td>
+<td style="text-align: right;">0.45904</td>
+<td style="text-align: right;">0.526289</td>
+<td style="text-align: right;">0.671226</td>
+<td style="text-align: right;">0.665189</td>
+<td style="text-align: right;">0.096684</td>
+<td style="text-align: right;">0.713789</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.549386</td>
+<td style="text-align: right;">0.346139</td>
+<td style="text-align: right;">0.301845</td>
+<td style="text-align: right;">0.603767</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">spore_print_color</td>
+<td style="text-align: right;">0.249082</td>
+<td style="text-align: right;">0.23024</td>
+<td style="text-align: right;">0.287189</td>
+<td style="text-align: right;">0.610768</td>
+<td style="text-align: right;">0.399737</td>
+<td style="text-align: right;">0.829683</td>
+<td style="text-align: right;">0.311922</td>
+<td style="text-align: right;">0.659164</td>
+<td style="text-align: right;">0.482254</td>
+<td style="text-align: right;">0.457855</td>
+<td style="text-align: right;">0.418098</td>
+<td style="text-align: right;">0.421658</td>
+<td style="text-align: right;">0.416206</td>
+<td style="text-align: right;">0.41291</td>
+<td style="text-align: right;">0.505787</td>
+<td style="text-align: right;">0.366917</td>
+<td style="text-align: right;">0.549386</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.303134</td>
+<td style="text-align: right;">0.326417</td>
+<td style="text-align: right;">0.754327</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">0.253064</td>
+<td style="text-align: right;">0.263409</td>
+<td style="text-align: right;">0.309509</td>
+<td style="text-align: right;">0.295846</td>
+<td style="text-align: right;">0.377634</td>
+<td style="text-align: right;">0.44276</td>
+<td style="text-align: right;">0.671623</td>
+<td style="text-align: right;">0.516878</td>
+<td style="text-align: right;">0.422908</td>
+<td style="text-align: right;">0.461294</td>
+<td style="text-align: right;">0.325049</td>
+<td style="text-align: right;">0.329685</td>
+<td style="text-align: right;">0.428387</td>
+<td style="text-align: right;">0.422167</td>
+<td style="text-align: right;">0.2424</td>
+<td style="text-align: right;">0.419334</td>
+<td style="text-align: right;">0.346139</td>
+<td style="text-align: right;">0.303134</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.499592</td>
+<td style="text-align: right;">0.489643</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">habitat</td>
+<td style="text-align: right;">0.271035</td>
+<td style="text-align: right;">0.246909</td>
+<td style="text-align: right;">0.329964</td>
+<td style="text-align: right;">0.524941</td>
+<td style="text-align: right;">0.364853</td>
+<td style="text-align: right;">0.445186</td>
+<td style="text-align: right;">0.536195</td>
+<td style="text-align: right;">0.492578</td>
+<td style="text-align: right;">0.456652</td>
+<td style="text-align: right;">0.410958</td>
+<td style="text-align: right;">0.299078</td>
+<td style="text-align: right;">0.309549</td>
+<td style="text-align: right;">0.427979</td>
+<td style="text-align: right;">0.421567</td>
+<td style="text-align: right;">0.278272</td>
+<td style="text-align: right;">0.430298</td>
+<td style="text-align: right;">0.301845</td>
+<td style="text-align: right;">0.326417</td>
+<td style="text-align: right;">0.499592</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.440667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">is_poisonous</td>
+<td style="text-align: right;">0.249512</td>
+<td style="text-align: right;">0.184251</td>
+<td style="text-align: right;">0.219537</td>
+<td style="text-align: right;">0.499602</td>
+<td style="text-align: right;">0.974401</td>
+<td style="text-align: right;">0.128247</td>
+<td style="text-align: right;">0.352664</td>
+<td style="text-align: right;">0.532766</td>
+<td style="text-align: right;">0.678601</td>
+<td style="text-align: right;">0.0968304</td>
+<td style="text-align: right;">0.58622</td>
+<td style="text-align: right;">0.581178</td>
+<td style="text-align: right;">0.528527</td>
+<td style="text-align: right;">0.515991</td>
+<td style="text-align: right;">0.155672</td>
+<td style="text-align: right;">0.217054</td>
+<td style="text-align: right;">0.603767</td>
+<td style="text-align: right;">0.754327</td>
+<td style="text-align: right;">0.489643</td>
+<td style="text-align: right;">0.440667</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
 </div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-corr-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corr-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Correlation heatmap (Cramér’s V) for all feature and feature-target pairs in the training data.
 </figcaption>
 </figure>
+</div>
 </div>
 </section>
 <section id="summary-of-anomalous-correlation-between-features" class="level2">
@@ -871,7 +1571,7 @@ Figure&nbsp;6
 </section>
 <section id="summary-of-anomalous-correlation-between-feature-odor-and-target" class="level2">
 <h2 class="anchored" data-anchor-id="summary-of-anomalous-correlation-between-feature-odor-and-target">Summary of Anomalous Correlation Between Feature “Odor” and Target:</h2>
-<p><a href="#fig-corr-heatmap" class="quarto-xref">Figure&nbsp;6</a> shows a high correlation between the feature “odor” and the target, and a moderately high correlation between “spore_print_color” and the target. However, the dataset we are using includes background information on the logical rules discovered by prior researchers Duch, Adamczak, and Grabczewski (1996), and they found that “odor” is often the first split for identifying poisonous mushrooms, and “spore_print_color” is often the second. Hence both of these features are expected to be strong predictors of the target and the seeming anomalous correlation is simply an accurate reflection of biological reality as captured by the dataset, and not likely to be a sign of data leakage in this case.</p>
+<p><a href="#fig-corr-heatmap" class="quarto-xref">Figure&nbsp;6</a> shows a high correlation between the feature “odor” and the target, and a moderately high correlation between “spore_print_color” and the target. However, the dataset we are using includes background information on the logical rules discovered by prior researchers Duch, Adamczak, and Grabczewski <span class="citation" data-cites="datastudy">(<a href="#ref-datastudy" role="doc-biblioref">Duch, Adamczak, and Grabczewski 1996</a>)</span>, and they found that “odor” is often the first split for identifying poisonous mushrooms, and “spore_print_color” is often the second. Hence both of these features are expected to be strong predictors of the target and the seeming anomalous correlation is simply an accurate reflection of biological reality as captured by the dataset, and not likely to be a sign of data leakage in this case.</p>
 </section>
 </section>
 <section id="model" class="level1">
@@ -888,7 +1588,7 @@ Table&nbsp;5: Mean 10-Fold Cross-Validation Metrics for DummyClassifier Baseline
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[50]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[96]</span><span class="ansi-green-fg">, line 6</span>
 <span class="ansi-green-fg">      1</span> dc_pipe = make_pipeline(
 <span class="ansi-green-fg">      2</span>     preprocessor, 
 <span class="ansi-green-fg">      3</span>     DummyClassifier(random_state=<span class="ansi-green-fg">123</span>)
@@ -906,7 +1606,7 @@ Table&nbsp;5: Mean 10-Fold Cross-Validation Metrics for DummyClassifier Baseline
 </div>
 </figure>
 </div>
-<p>In our classification problem, we opt to use <code>SVC</code> (Buitinck, L., Louppe, G., Blondel, M., Pedregosa, Fabian, Mueller, A., Grisel, O., … Ga”el Varoquaux. (2013)) as our model of choice for its effective usage in this scenario. We do not have an extreme amount of data (&lt; 10000 observations) on top of only being a binary classification task.</p>
+<p>In our classification problem, we opt to use <code>SVC</code> <span class="citation" data-cites="svc">(<a href="#ref-svc" role="doc-biblioref">Buitinck et al. 2013</a>)</span> as our model of choice for its effective usage in this scenario. We do not have an extreme amount of data (&lt; 10000 observations) on top of only being a binary classification task.</p>
 <div id="tbl-cross-val-svc" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="28">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cross-val-svc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -917,7 +1617,7 @@ Table&nbsp;6: Mean 10-Fold Cross-Validation Metrics for SVC Model
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[51]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[97]</span><span class="ansi-green-fg">, line 6</span>
 <span class="ansi-green-fg">      1</span> svc_pipe = make_pipeline(
 <span class="ansi-green-fg">      2</span>     preprocessor, 
 <span class="ansi-green-fg">      3</span>     SVC(random_state=<span class="ansi-green-fg">123</span>)
@@ -942,7 +1642,7 @@ Table&nbsp;6: Mean 10-Fold Cross-Validation Metrics for SVC Model
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[52]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[98]</span><span class="ansi-green-fg">, line 1</span>
 <span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> y_pred = svc_pipe.predict(<span class="ansi-yellow-bg">X_test</span>)
 <span class="ansi-green-fg">      3</span> cm = confusion_matrix(y_test, y_pred)
 <span class="ansi-green-fg">      4</span> ConfusionMatrixDisplay(cm).plot()
@@ -959,20 +1659,32 @@ Figure&nbsp;7
 </section>
 <section id="results-discussion" class="level1">
 <h1>Results &amp; Discussion</h1>
-<p>Our prediction model performed excellently on test data, classifying all of the mushroom examples correctly as poisonous or edible, with no error. Given that our model predicted perfectly, no optimization was required. As shown in Figure <a href="#fig-confusion-matrix-svc" class="quarto-xref">Figure&nbsp;7</a>, the SVC correctly classified every mushroom in the test set, yielding no false positives or false negatives. Furthermore, the SVC model shows consistent performance across folds, as summarized in Table <a href="#tbl-cross-val-svc" class="quarto-xref">Table&nbsp;6</a>.</p>
-<p>This performance is identical to the results published on the <a href="https://archive.ics.uci.edu/dataset/73/mushroom">UCI website</a> from which the data was sourced (Mushroom). As shown in the confusion matrix, the model has a recall and precision of 1, due to no false positivies or negatives. The model also shows robustness, with no difference in the accuracy of training and test scores, so it is promising that this model could be deployed effectively to protect mushroom consumers from eating poisonous mushrooms.That said, there are some practical concerns for public implementation, namely the model is fit on 20 different features that correspond to specific categorical physical characteristics of a mushroom, and thus accuracy requires accurate identification of physical characteristics.</p>
-<p>Hence, if an amateur mushroom enthusiast aimed to utilize the model to predict edibility but misidentified the physical characeristics of the mushroom they were attempting to classify, then the accuracy of the models predictions would be effectively moot as it would not be returning a prediction for the true foraged mushroom. One might consider creating a similar predictor with a smaller number of features to increase the practical efficacy of the model, though they would need to consider balancing the models accuracy with efficacy, because the risk of falsely predicting a mushroom as edible could be fatal. It is also worth noting that the hypothetical mushroom observations in this model are based upon a book from 1981 (Lincoff), so it would be wise to consider whether the data could be updated to be sourced from a more recent source of mushroom science.</p>
+<p>Our prediction model performed excellently on test data, classifying all of the mushroom examples correctly as poisonous or edible, with no error. Given that our model predicted perfectly, no optimization was required. As shown in <a href="#fig-confusion-matrix-svc" class="quarto-xref">Figure&nbsp;7</a>, the SVC correctly classified every mushroom in the test set, yielding no false positives or false negatives. Furthermore, the SVC model shows consistent performance across folds, as summarized in <a href="#tbl-cross-val-svc" class="quarto-xref">Table&nbsp;6</a>.</p>
+<p>This performance is identical to the results published on the <a href="https://archive.ics.uci.edu/dataset/73/mushroom">UCI website</a> from which the data was sourced <span class="citation" data-cites="datasource">(<a href="#ref-datasource" role="doc-biblioref"><span>“Mushroom”</span> 1981</a>)</span>. As shown in the confusion matrix, the model has a recall and precision of 1, due to no false positivies or negatives. The model also shows robustness, with no difference in the accuracy of training and test scores, so it is promising that this model could be deployed effectively to protect mushroom consumers from eating poisonous mushrooms.That said, there are some practical concerns for public implementation, namely the model is fit on 20 different features that correspond to specific categorical physical characteristics of a mushroom, and thus accuracy requires accurate identification of physical characteristics.</p>
+<p>Hence, if an amateur mushroom enthusiast aimed to utilize the model to predict edibility but misidentified the physical characeristics of the mushroom they were attempting to classify, then the accuracy of the models predictions would be effectively moot as it would not be returning a prediction for the true foraged mushroom. One might consider creating a similar predictor with a smaller number of features to increase the practical efficacy of the model, though they would need to consider balancing the models accuracy with efficacy, because the risk of falsely predicting a mushroom as edible could be fatal. It is also worth noting that the hypothetical mushroom observations in this model are based upon a book from 1981 <span class="citation" data-cites="mushbook">(<a href="#ref-mushbook" role="doc-biblioref">Lincoff 1981</a>)</span>, so it would be wise to consider whether the data could be updated to be sourced from a more recent source of mushroom science.</p>
 </section>
-<section id="references" class="level1">
-<h1>References</h1>
-<p>Buitinck, L., Louppe, G., Blondel, M., Pedregosa, Fabian, Mueller, A., Grisel, O., … Ga”el Varoquaux. (2013). API design for machine learning software: experiences from the scikit-learn project. In ECML PKDD Workshop: Languages for Data Mining and Machine Learning (pp.&nbsp;108–122).</p>
-<p>Diaz, J. H. (2016). Mistaken mushroom poisonings. Wilderness &amp; Environmental Medicine, 27(2), 330-335.</p>
-<p>Duch, W., Adamczak, R., &amp; Grabczewski, K. (1996). Extraction of logical rules from training data using backpropagation networks. In Proceedings of the 1st Online Workshop on Soft Computing, 19-30 August 1996, pp.&nbsp;25-30. [Online]. Available: http://www.bioele.nuee.nagoya-u.ac.jp/wsc1/</p>
-<p>Lincoff, G. H. (1981).The Audubon Society Field Guide to North American Mushrooms (1981). New York: Alfred A. Knopf</p>
-<p>Mushroom. (1981). UCI Machine Learning Repository. https://doi.org/10.24432/C5959T</p>
+<section id="references" class="level1 unnumbered">
+
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-svc" class="csl-entry" role="listitem">
+Buitinck, L., G. Louppe, M. Blondel, F. Pedregosa, A. Mueller, O. Grisel, and G. Varoquaux. 2013. <span>“API Design for Machine Learning Software: Experiences from the Scikit-Learn Project.”</span> In <em>ECML PKDD Workshop: Languages for Data Mining and Machine Learning</em>, 108–22.
+</div>
+<div id="ref-poisonarticle" class="csl-entry" role="listitem">
+Diaz, J. H. 2016. <span>“Mistaken Mushroom Poisonings.”</span> <em>Wilderness &amp; Environmental Medicine</em> 27 (2): 330–35.
+</div>
+<div id="ref-datastudy" class="csl-entry" role="listitem">
+Duch, W., R. Adamczak, and K. Grabczewski. 1996. <span>“Extraction of Logical Rules from Training Data Using Backpropagation Networks.”</span> In <em>Proceedings of the 1st Online Workshop on Soft Computing</em>, 25–30.
+</div>
+<div id="ref-mushbook" class="csl-entry" role="listitem">
+Lincoff, G. H. 1981. <em>The Audubon Society Field Guide to North American Mushrooms</em>. New York: Alfred A. Knopf.
+</div>
+<div id="ref-datasource" class="csl-entry" role="listitem">
+<span>“Mushroom.”</span> 1981. <a href="https://doi.org/10.24432/C5959T" class="uri">https://doi.org/10.24432/C5959T</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
