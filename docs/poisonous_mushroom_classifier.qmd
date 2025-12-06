@@ -75,6 +75,12 @@ It was sourced from the UCI Machine Learning Repository, and can be found [here]
 It includes 8124 descriptions of hypothetical mushroom samples that correspond to 23 species of mushrooms in the Agaricus and Lepiota Family (Mushroom, 1981). 
 Each row includes 22 categorical variables that are physical characteristics of the mushroom sample, including the odor, gill-spacing, gill-color, gill-size, population, habitat, etc, and is labelled as edible or poisonous. 
 
+## Computing Environment
+All analyses were performed in Python [@python] using pandas [@mckinney2010], NumPy [@numpy], and scikit-learn [@scikit-learn] for data processing and modeling.
+Data validation employed Pandera [@pandera], and visualizations were generated using Altair [@altair].
+The dataset was accessed via the UCI Machine Learning Repository [@uci_mushroom].
+This report was written and rendered using Quarto [@quarto] to ensure full reproducibility.
+
 # Analysis
 
 ```{python}
